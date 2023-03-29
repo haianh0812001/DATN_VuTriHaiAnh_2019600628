@@ -1,7 +1,6 @@
 using AspNetCoreHero.ToastNotification;
 using ShopOnline.Models;
-using System.Configuration;
-using ShopOnline.Models;
+
 using Microsoft.EntityFrameworkCore;
 
 internal class Program
