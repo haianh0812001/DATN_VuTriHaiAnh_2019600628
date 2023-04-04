@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -10,27 +13,29 @@ using ShopOnline.Models;
 namespace ShopOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    //[Authorize(Roles = "Admin")]
     public class AdminRolesController : Controller
     {
         private readonly dbMarketsContext _context;
 
-        public AdminRolesController(dbMarketsContext context)
+        public INotyfService _notyfService { get; }
+
+        public AdminRolesController(dbMarketsContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/AdminRoles
         public async Task<IActionResult> Index()
         {
-              return _context.Roles != null ? 
-                          View(await _context.Roles.ToListAsync()) :
-                          Problem("Entity set 'dbMarketsContext.Roles'  is null.");
+            return View(await _context.Roles.ToListAsync());
         }
 
         // GET: Admin/AdminRoles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Roles == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -62,6 +67,7 @@ namespace ShopOnline.Areas.Admin.Controllers
             {
                 _context.Add(role);
                 await _context.SaveChangesAsync();
+                _notyfService.Success("Tạo mới thành công");
                 return RedirectToAction(nameof(Index));
             }
             return View(role);
@@ -70,7 +76,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         // GET: Admin/AdminRoles/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Roles == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -101,11 +107,13 @@ namespace ShopOnline.Areas.Admin.Controllers
                 {
                     _context.Update(role);
                     await _context.SaveChangesAsync();
+                    _notyfService.Success("Cập nhật thành công");
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!RoleExists(role.RoleId))
                     {
+                        _notyfService.Success("Có lỗi xảy ra");
                         return NotFound();
                     }
                     else
@@ -121,7 +129,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         // GET: Admin/AdminRoles/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Roles == null)
+            if (id == null)
             {
                 return NotFound();
             }
@@ -141,23 +149,16 @@ namespace ShopOnline.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Roles == null)
-            {
-                return Problem("Entity set 'dbMarketsContext.Roles'  is null.");
-            }
             var role = await _context.Roles.FindAsync(id);
-            if (role != null)
-            {
-                _context.Roles.Remove(role);
-            }
-            
+            _context.Roles.Remove(role);
             await _context.SaveChangesAsync();
+            _notyfService.Success("Xóa quyền truy cập thành công");
             return RedirectToAction(nameof(Index));
         }
 
         private bool RoleExists(int id)
         {
-          return (_context.Roles?.Any(e => e.RoleId == id)).GetValueOrDefault();
+            return _context.Roles.Any(e => e.RoleId == id);
         }
     }
 }
