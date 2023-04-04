@@ -22,5 +22,7 @@ namespace ShopOnline.Models
         public string? MetaKey { get; set; }
         public string? MetaDesc { get; set; }
         public int? Views { get; set; }
+
+        public virtual Account? Account { get; set; }
     }
 }

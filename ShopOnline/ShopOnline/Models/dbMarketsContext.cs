@@ -37,7 +37,7 @@ namespace ShopOnline.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-Q2SPJOU;Database=dbMarkets; Integrated Security = true;");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-Q2SPJOU;Database=dbMarkets;Integrated Security=true;");
             }
         }
 
@@ -153,6 +153,11 @@ namespace ShopOnline.Models
                 entity.Property(e => e.Salt)
                     .HasMaxLength(8)
                     .IsFixedLength();
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Customers)
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Customers_Locations");
             });
 
             modelBuilder.Entity<Location>(entity =>
@@ -192,6 +197,11 @@ namespace ShopOnline.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Orders_Customers");
+
+                entity.HasOne(d => d.Location)
+                    .WithMany(p => p.Orders)
+                    .HasForeignKey(d => d.LocationId)
+                    .HasConstraintName("FK_Orders_Locations");
 
                 entity.HasOne(d => d.TransactStatus)
                     .WithMany(p => p.Orders)
@@ -347,6 +357,11 @@ namespace ShopOnline.Models
                 entity.Property(e => e.Thumb).HasMaxLength(255);
 
                 entity.Property(e => e.Title).HasMaxLength(255);
+
+                entity.HasOne(d => d.Account)
+                    .WithMany(p => p.TinDangs)
+                    .HasForeignKey(d => d.AccountId)
+                    .HasConstraintName("FK_TinDangs_Accounts");
             });
 
             modelBuilder.Entity<TransactStatus>(entity =>

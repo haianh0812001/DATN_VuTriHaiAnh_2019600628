@@ -5,6 +5,11 @@ namespace ShopOnline.Models
 {
     public partial class Account
     {
+        public Account()
+        {
+            TinDangs = new HashSet<TinDang>();
+        }
+
         public int AccountId { get; set; }
         public string? Phone { get; set; }
         public string? Email { get; set; }
@@ -17,5 +22,6 @@ namespace ShopOnline.Models
         public DateTime? CreateDate { get; set; }
 
         public virtual Role? Role { get; set; }
+        public virtual ICollection<TinDang> TinDangs { get; set; }
     }
 }
