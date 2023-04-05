@@ -136,7 +136,7 @@ namespace ShopOnline.Helpper
             }
             return url;
         }
-        public static async Task<string> UploadFile(Microsoft.AspNetCore.Http.IFormFile file, string sDirectory, string newname = null)
+        public static async Task<string> UploadFile(IFormFile file, string sDirectory, string newname = null)
         {
             try
             {
