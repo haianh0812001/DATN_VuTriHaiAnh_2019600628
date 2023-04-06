@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShopOnline.Areas.Admin.Models;
+using ShopOnline.Extension;
 using ShopOnline.Models;
 
 namespace ShopOnline.Areas.Admin.Controllers
@@ -95,7 +96,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        /*public IActionResult ChangePassword(ChangePasswordViewModel model)
+        public IActionResult ChangePassword(ChangePasswordViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -113,7 +114,7 @@ namespace ShopOnline.Areas.Admin.Controllers
                 }
             }
             return View();
-        }*/
+        }
 
         // GET: Admin/AdminAccounts/Edit/5
         public async Task<IActionResult> Edit(int? id)
