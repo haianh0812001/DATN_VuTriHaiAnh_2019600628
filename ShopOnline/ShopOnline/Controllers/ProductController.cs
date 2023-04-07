@@ -12,7 +12,7 @@ namespace ShopOnline.Controllers
         {
             _context = context;
         }
-        [Route("Product/Index", Name = ("ShopProduct"))]
+        [Route("shop.html", Name = ("ShopProduct"))]
 
         IActionResult Index(int? page)
         {
