@@ -13,8 +13,7 @@ namespace ShopOnline.Controllers
             _context = context;
         }
         [Route("shop.html", Name = ("ShopProduct"))]
-
-        IActionResult Index(int? page)
+        public IActionResult Index(int? page)
         {
             try
             {
@@ -32,6 +31,8 @@ namespace ShopOnline.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+
         }
         [Route("danhmuc/{Alias}", Name = ("ListProduct"))]
         public IActionResult List(string Alias, int page = 1)
@@ -81,6 +82,10 @@ namespace ShopOnline.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+
         }
+
     }
+
 }

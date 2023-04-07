@@ -3,8 +3,8 @@
 @{
     ViewData["TiTle"] = "Shop - " + ViewBag.CurrentPage;
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var PageCurrent = ViewBag.CurrentPage;
-    var PageNext = PageCurrent + 1;
+    int PageCurrent = ViewBag.CurrentPage;
+    int PageNext = PageCurrent + 1;
 }
 <!-- Begin Main Content Area -->
 <main class="main-content">
