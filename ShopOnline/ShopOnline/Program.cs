@@ -2,6 +2,9 @@ using AspNetCoreHero.ToastNotification;
 using ShopOnline.Models;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Text.Encodings.Web;
+using System.Text.Unicode;
 
 internal class Program
 {
@@ -15,6 +18,17 @@ internal class Program
             options.UseSqlServer(builder.Configuration.GetConnectionString("ShopOnlineConnectionString"));
 
         });
+        builder.Services.AddSingleton<HtmlEncoder>(HtmlEncoder.Create(allowedRanges: new[] { UnicodeRanges.All }));
+        builder.Services.AddSession();
+        builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(p =>
+            {
+                p.Cookie.Name = "UserLoginCookie";
+                p.ExpireTimeSpan = TimeSpan.FromDays(1);
+                //p.LoginPath = "/dang-nhap.html";
+                //p.LogoutPath = "/dang-xuat/html";
+                p.AccessDeniedPath = "/not-found.html";
+            });
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddNotyf(config =>
         {
@@ -36,7 +50,8 @@ internal class Program
         app.UseStaticFiles();
 
         app.UseRouting();
-
+        app.UseSession();
+        app.UseAuthentication();
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>

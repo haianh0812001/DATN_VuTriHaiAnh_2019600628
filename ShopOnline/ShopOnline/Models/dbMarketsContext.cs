@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using ShopOnline.ModelViews;
+using ShopOnline.Areas.Admin.Models;
 
 namespace ShopOnline.Models
 {
@@ -377,5 +379,9 @@ namespace ShopOnline.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<ShopOnline.ModelViews.RegisterViewModel>? RegisterViewModel { get; set; }
+
+        public DbSet<ShopOnline.Areas.Admin.Models.LoginViewModel>? LoginViewModel { get; set; }
     }
 }
