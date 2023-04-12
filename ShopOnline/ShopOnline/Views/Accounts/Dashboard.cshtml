@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Order> DanhSachDonHang = ViewBag.DonHang;
     var total = DanhSachDonHang.Sum(x => x.TotalMoney).ToString("#,##0");
-    //ShopOnline.ModelViews.ChangePasswordViewModel changePassword = new ShopOnline.ModelViews.ChangePasswordViewModel();
+    ShopOnline.ModelViews.ChangePasswordViewModel changePassword = new ShopOnline.ModelViews.ChangePasswordViewModel();
 }
 
 <main class="main-content">
@@ -122,7 +122,7 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
-                            //await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
+                            @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
                         </div>
                     </div>
                 </div>

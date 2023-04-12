@@ -220,7 +220,7 @@ namespace ShopOnline.Controllers
         }
 
         [HttpPost]
-        public IActionResult ChangePassword(ChangePasswordViewModel model)
+        public IActionResult ChangePassword(ModelViews.ChangePasswordViewModel model)
         {
             try
             {
