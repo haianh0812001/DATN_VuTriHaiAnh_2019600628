@@ -23,11 +23,11 @@ internal class Program
         builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
             .AddCookie(p =>
             {
-                p.Cookie.Name = "UserLoginCookie";
-                p.ExpireTimeSpan = TimeSpan.FromDays(1);
-                //p.LoginPath = "/dang-nhap.html";
+                //p.Cookie.Name = "UserLoginCookie";
+                //p.ExpireTimeSpan = TimeSpan.FromDays(1);
+                p.LoginPath = "/dang-nhap.html";
                 //p.LogoutPath = "/dang-xuat/html";
-                p.AccessDeniedPath = "/not-found.html";
+                p.AccessDeniedPath = "/";
             });
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddNotyf(config =>

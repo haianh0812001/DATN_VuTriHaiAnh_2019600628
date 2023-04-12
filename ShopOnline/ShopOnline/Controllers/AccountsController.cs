@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace ShopOnline.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class AccountsController : Controller
     {
         private readonly dbMarketsContext _context;
@@ -141,7 +141,6 @@ namespace ShopOnline.Controllers
                 return View(taikhoan);
             }
         }
-        [HttpGet]
         [AllowAnonymous]
         [Route("dang-nhap.html", Name = "DangNhap")]
         public IActionResult Login(string returnUrl = null)
@@ -156,11 +155,11 @@ namespace ShopOnline.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("dang-nhap.html", Name = "DangNhap")]
-        public async Task<IActionResult> Login(ModelViews.LoginViewModel customer, string returnUrl)
+        public async Task<IActionResult> Login(ModelViews.LoginViewModel customer, string returnUrl = null)
         {
             try
             {
-                if (ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     bool isEmail = Utilities.IsValidEmail(customer.UserName);
                     if (!isEmail) return View(customer);
@@ -188,7 +187,7 @@ namespace ShopOnline.Controllers
                     //Identity
                     var claims = new List<Claim>
                     {
-                        new Claim(ClaimTypes.Name, khachhang.FullName),
+                        new Claim(type: ClaimTypes.Name, khachhang.FullName),
                         new Claim("CustomerId", khachhang.CustomerId.ToString())
                     };
                     ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
@@ -197,11 +196,11 @@ namespace ShopOnline.Controllers
                     _notyfService.Success("Đăng nhập thành công");
                     if (string.IsNullOrEmpty(returnUrl))
                     {
-                        return RedirectToAction("Dashboard", "Accounts");
+                    return RedirectToAction("Dashboard", "Accounts");
                     }
                     else
                     {
-                        return Redirect(returnUrl);
+                        return RedirectToAction("DangKyTaiKhoan", "Accounts");
                     }
                 }
             }
