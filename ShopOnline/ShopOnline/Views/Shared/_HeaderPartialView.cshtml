@@ -108,7 +108,7 @@
                                     </a>
                                 </li>
                                 <li id="numberCart" class="minicart-wrap me-3 me-lg-0">
-                                    @*@await Component.InvokeAsync("NumberCart")*@
+                                    @await Component.InvokeAsync("NumberCart")
                                 </li>
                                 <li class="mobile-menu_wrap d-block d-lg-none">
                                     <a href="#mobileMenu" class="mobile-menu_btn toolbar-btn pl-0">
@@ -471,14 +471,14 @@
         </div>
     </div>
     <div class="offcanvas-minicart_wrapper" id="miniCart">
-        @*await Component.InvokeAsync("HeaderCart")*@
+        @await Component.InvokeAsync("HeaderCart")
     </div>
     <div class="global-overlay"></div>
 </header>
 
 @section Scripts{
-    @*<script>*@
-    @*$(document).ready(function () {
+    <script>
+    $(document).ready(function () {
             $("#keyword").keyup(function () {
             var strkeyword = $('#keyword').val();
             $.ajax({
@@ -496,6 +496,6 @@
                 }
             });
         });
-        });*@
-
+        });
+    </script>
 }
