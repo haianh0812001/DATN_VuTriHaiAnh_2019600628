@@ -7,7 +7,6 @@ namespace ShopOnline.Models
     {
         public Location()
         {
-            Customers = new HashSet<Customer>();
             Orders = new HashSet<Order>();
         }
 
@@ -19,7 +18,6 @@ namespace ShopOnline.Models
         public string? NameWithType { get; set; }
         public string? Type { get; set; }
 
-        public virtual ICollection<Customer> Customers { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
     }
 }

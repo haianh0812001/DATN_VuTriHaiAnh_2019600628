@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using ShopOnline.ModelViews;
-using ShopOnline.Areas.Admin.Models;
 
 namespace ShopOnline.Models
 {
@@ -38,6 +36,7 @@ namespace ShopOnline.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-Q2SPJOU;Database=dbMarkets;Integrated Security=true;");
             }
         }
@@ -154,11 +153,6 @@ namespace ShopOnline.Models
                 entity.Property(e => e.Salt)
                     .HasMaxLength(8)
                     .IsFixedLength();
-
-                entity.HasOne(d => d.Location)
-                    .WithMany(p => p.Customers)
-                    .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK_Customers_Locations");
             });
 
             modelBuilder.Entity<Location>(entity =>
@@ -378,9 +372,5 @@ namespace ShopOnline.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-
-        public DbSet<ShopOnline.ModelViews.RegisterViewModel>? RegisterViewModel { get; set; }
-
-        public DbSet<ShopOnline.Areas.Admin.Models.LoginViewModel>? LoginViewModel { get; set; }
     }
 }
