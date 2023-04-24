@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +17,7 @@ using ShopOnline.Models;
 namespace ShopOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize]
     public class AdminCategoriesController : Controller
     {
         private readonly dbMarketsContext _context;

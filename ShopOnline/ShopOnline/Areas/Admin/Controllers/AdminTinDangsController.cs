@@ -15,7 +15,7 @@ using ShopOnline.Models;
 namespace ShopOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize]
+    [Authorize]
     public class AdminTinDangsController : Controller
     {
         private readonly dbMarketsContext _context;

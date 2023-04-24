@@ -1,11 +1,11 @@
-﻿using AspNetCoreHero.ToastNotification.Abstractions;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using ShopOnline.Areas.Admin.Models;
 using ShopOnline.Models;
-using System.Security.Claims;
 
 namespace ShopOnline.Areas.Admin.Controllers
 {
@@ -43,10 +43,6 @@ namespace ShopOnline.Areas.Admin.Controllers
         {
             try
             {
-                if (ModelState.IsValid)
-                {
-
-
                     Account kh = _context.Accounts
                         .Include(p => p.Role)
                         .SingleOrDefault(p => p.Email.ToLower() == model.UserName.ToLower().Trim());
@@ -88,16 +84,12 @@ namespace ShopOnline.Areas.Admin.Controllers
                     var userPrincipal = new ClaimsPrincipal(new[] { grandmaIdentity });
                     await HttpContext.SignInAsync(userPrincipal);
 
-
-
                     return RedirectToAction("Index", "Home", new { Area = "Admin" });
-                }
             }
             catch
             {
                 return RedirectToAction("AdminLogin", "Account", new { Area = "Admin" });
             }
-            return RedirectToAction("AdminLogin", "Account", new { Area = "Admin" });
         }
         [Route("logout.html", Name = "Logout")]
         public IActionResult AdminLogout()

@@ -25,10 +25,14 @@ internal class Program
             {
                 //p.Cookie.Name = "UserLoginCookie";
                 //p.ExpireTimeSpan = TimeSpan.FromDays(1);
-                p.LoginPath = "/dang-nhap.html";
+                p.LoginPath = "/login.html";
                 //p.LogoutPath = "/dang-xuat/html";
                 p.AccessDeniedPath = "/";
             });
+        //builder.Services.AddAuthorization(options =>
+        //{
+        //    options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+        //});
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddNotyf(config =>
         {

@@ -13,7 +13,7 @@ using ShopOnline.Models;
 namespace ShopOnline.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    //[Authorize(Roles = "Admin")]
+    [Authorize]
     public class AdminRolesController : Controller
     {
         private readonly dbMarketsContext _context;
