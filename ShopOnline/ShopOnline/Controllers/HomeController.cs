@@ -50,9 +50,13 @@ namespace ShopOnline.Controllers
                     .OrderByDescending(x => x.CreatedDate)
                     .Take(3)
                     .ToList();
+                var Slider = _context.Sliders
+                    .AsNoTracking()
+                    .ToList();
                 model.Products = lsProductViews;
                 model.quangcao = quangcao;
                 model.TinTucs = TinTuc;
+                model.Sliders = Slider;
                 ViewBag.AllProducts = lsProducts;
             }
             return View(model);

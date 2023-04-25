@@ -29,6 +29,7 @@ namespace ShopOnline.Models
         public virtual DbSet<QuangCao> QuangCaos { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
         public virtual DbSet<Shipper> Shippers { get; set; } = null!;
+        public virtual DbSet<Slider> Sliders { get; set; } = null!;
         public virtual DbSet<TinDang> TinDangs { get; set; } = null!;
         public virtual DbSet<TransactStatus> TransactStatuses { get; set; } = null!;
 
@@ -318,6 +319,21 @@ namespace ShopOnline.Models
                 entity.Property(e => e.ShipDate).HasColumnType("datetime");
 
                 entity.Property(e => e.ShipperName).HasMaxLength(150);
+            });
+
+            modelBuilder.Entity<Slider>(entity =>
+            {
+                entity.ToTable("Slider");
+
+                entity.Property(e => e.Alias).HasMaxLength(250);
+
+                entity.Property(e => e.BgImage).HasMaxLength(255);
+
+                entity.Property(e => e.Image1).HasMaxLength(255);
+
+                entity.Property(e => e.Image2).HasMaxLength(255);
+
+                entity.Property(e => e.SliderName).HasMaxLength(250);
             });
 
             modelBuilder.Entity<TinDang>(entity =>

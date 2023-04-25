@@ -59,24 +59,30 @@
                                 </div>
                             </div>
                             <div class="p-b-15 p-t-20 dropdown-menu pop-profile">
-                                <a asp-area="Admin" asp-controller="Account" asp-action="AdminLogout" class="dropdown-item d-block p-h-15 p-v-10">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div>
-                                            <i class="anticon opacity-04 font-size-16 anticon-lock"></i>
-                                            <span class="m-l-10">Login</span>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <a href="/logout.html" class="dropdown-item d-block p-h-15 p-v-10">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <i class="anticon opacity-04 font-size-16 anticon-logout"></i>
+                                                <span class="m-l-10">Logout</span>
+                                            </div>
+                                            <i class="anticon font-size-10 anticon-right"></i>
                                         </div>
-                                        <i class="anticon font-size-10 anticon-right"></i>
-                                    </div>
-                                </a>
-                                <a  class="dropdown-item d-block p-h-15 p-v-10">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div>
-                                            <i class="anticon opacity-04 font-size-16 anticon-logout"></i>
-                                            <span class="m-l-10">Logout</span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-area="Admin" asp-controller="Account" asp-action="AdminLogout" class="dropdown-item d-block p-h-15 p-v-10">
+                                        <div class="d-flex align-items-center justify-content-between">
+                                            <div>
+                                                <i class="anticon opacity-04 font-size-16 anticon-lock"></i>
+                                                <span class="m-l-10">Login</span>
+                                            </div>
+                                            <i class="anticon font-size-10 anticon-right"></i>
                                         </div>
-                                        <i class="anticon font-size-10 anticon-right"></i>
-                                    </div>
-                                </a>
+                                    </a>
+                                }
                             </div>
                         </li>
 

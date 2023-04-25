@@ -94,16 +94,9 @@ namespace ShopOnline.Areas.Admin.Controllers
         [Route("logout.html", Name = "Logout")]
         public IActionResult AdminLogout()
         {
-            try
-            {
-                HttpContext.SignOutAsync();
-                HttpContext.Session.Remove("AccountId");
-                return RedirectToAction("AdminLogin", "Account", new { Area = "Admin" });
-            }
-            catch
-            {
-                return RedirectToAction("AdminLogin", "Account", new { Area = "Admin" });
-            }
+            HttpContext.SignOutAsync();
+            HttpContext.Session.Remove("AccountId");
+            return RedirectToAction("AdminLogin", "Account", new { Area = "Admin" });
         }
 
     }

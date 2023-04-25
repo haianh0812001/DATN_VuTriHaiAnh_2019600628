@@ -1,0 +1,48 @@
+﻿@model ShopOnline.Models.Slider
+
+@{
+    ViewData["Title"] = "Chi tiết tin tức :" + Model.SliderName;
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminSliders" asp-action="Index" class="breadcrumb-item">Danh sách Slider</a>
+            <span class="breadcrumb-item active">Danh mục : @Model.SliderName</span>
+        </nav>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-hover e-commerce-table">
+        <thead>
+            <tr>
+                <th>ID: </th>
+                <td>@Model.SliderId</td>
+            </tr>
+            <tr>
+                <th>Tên slider: </th>
+                <td>@Model.SliderName</td>
+            </tr>
+            <tr>
+                <th>Backgourd: </th>
+                <td><img src="~/images/sliders/@Model.BgImage" width="100px" height="50px" /></td>
+            </tr>
+            <tr>
+                <th>Alias: </th>
+                <td>@Model.Alias</td>
+            </tr>
+            <tr>
+                <th>Chi tiết: </th>
+                <td>@Model.Contents</td>
+            </tr>
+        </thead>
+    </table>
+    <form asp-action="Detais">
+        <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminSliders" asp-action="Edit" asp-route-id="@Model.SliderId">Sửa đổi</a> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+

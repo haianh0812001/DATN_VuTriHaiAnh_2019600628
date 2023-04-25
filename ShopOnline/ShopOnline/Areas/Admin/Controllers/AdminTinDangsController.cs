@@ -84,7 +84,6 @@ namespace ShopOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                //Xu ly Thumb
                 if (fThumb != null)
                 {
                     string extension = Path.GetExtension(fThumb.FileName);
@@ -94,7 +93,6 @@ namespace ShopOnline.Areas.Admin.Controllers
                 if (string.IsNullOrEmpty(tinDang.Thumb)) tinDang.Thumb = "default.jpg";
                 tinDang.Alias = Utilities.SEOUrl(tinDang.Title);
                 tinDang.CreatedDate = DateTime.Now;
-
 
                 _context.Add(tinDang);
                 await _context.SaveChangesAsync();
