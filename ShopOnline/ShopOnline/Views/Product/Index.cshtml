@@ -115,29 +115,6 @@
                             </div>
                         </div>
                         <div class="widgets-area mb-9">
-                            <h2 class="widgets-title mb-5">Size</h2>
-                            <div class="widgets-item">
-                                <ul class="widgets-checkbox">
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="size-selection-1">
-                                        <label class="label-checkbox mb-0" for="size-selection-1">XL</label>
-                                    </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="size-selection-2" checked>
-                                        <label class="label-checkbox mb-0" for="size-selection-2">L</label>
-                                    </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="size-selection-3">
-                                        <label class="label-checkbox mb-0" for="size-selection-3">SM</label>
-                                    </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="size-selection-4">
-                                        <label class="label-checkbox mb-0" for="size-selection-4">XXL</label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="widgets-area mb-9">
                             <h2 class="widgets-title mb-5">Top Rated Products</h2>
                             <div class="widgets-item">
                                 <div class="swiper-container widgets-list-slider">
@@ -154,17 +131,6 @@
                                                     <div class="price-box pb-1">
                                                         <span class="new-price">$80.00</span>
                                                     </div>
-                                                    <div class="rating-box-wrap">
-                                                        <div class="rating-box">
-                                                            <ul>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -179,17 +145,6 @@
                                                     <a class="product-name" href="single-product.html">Natural Coconut</a>
                                                     <div class="price-box pb-1">
                                                         <span class="new-price">$80.00</span>
-                                                    </div>
-                                                    <div class="rating-box-wrap">
-                                                        <div class="rating-box">
-                                                            <ul>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                            </ul>
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -206,17 +161,6 @@
                                                     <div class="price-box pb-1">
                                                         <span class="new-price">$80.00</span>
                                                     </div>
-                                                    <div class="rating-box-wrap">
-                                                        <div class="rating-box">
-                                                            <ul>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                                <li><i class="pe-7s-star"></i></li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -228,21 +172,12 @@
                             <h2 class="widgets-title mb-5">Tag</h2>
                             <div class="widgets-item">
                                 <ul class="widgets-tags">
-                                    <li>
-                                        <a href="javascript:void(0)">Clothing</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Accessories</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">For Men</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Women</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0)">Fashion</a>
-                                    </li>
+                                    @foreach (var item in Model)
+                                    {
+                                        <li>
+                                            <a href="javascript:void(0)">@item.Tags</a>
+                                        </li>
+                                    }          
                                 </ul>
                             </div>
                         </div>
@@ -297,25 +232,17 @@
                                                     <div class="product-add-action">
                                                         <ul>
                                                             <li>
-                                                                <a href="@url">
+                                                                <a href="cart.html">
                                                                     <i class="pe-7s-cart"></i>
                                                                 </a>
+                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
                                                     <a class="product-name" href="@url">@item.ProductName</a>
                                                     <div class="price-box pb-1">
-                                                        <span class="new-price">@item.Price.Value.ToString("#,##0") VNĐ</span>
-                                                    </div>
-                                                    <div class="rating-box">
-                                                        <ul>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                        </ul>
+                                                        <span class="new-price">@((item.Price / 100 * (100 - item.Discount)).Value.ToString("#,##0")) VNĐ</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -341,7 +268,7 @@
                                                     <div class="product-add-action">
                                                         <ul>
                                                             <li>
-                                                                <a href="@url">
+                                                                <a href="cart.html">
                                                                     <i class="pe-7s-cart"></i>
                                                                 </a>
                                                             </li>
@@ -351,16 +278,7 @@
                                                 <div class="product-content align-self-center">
                                                     <a class="product-name pb-2" href="@url">@item.ProductName</a>
                                                     <div class="price-box pb-1">
-                                                        <span class="new-price">@item.Price</span>
-                                                    </div>
-                                                    <div class="rating-box pb-2">
-                                                        <ul>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                        </ul>
+                                                        <span class="new-price">@((item.Price / 100 * (100 - item.Discount)).Value.ToString("#,##0")) VNĐ</span>
                                                     </div>
                                                     <p class="short-desc mb-0">@item.ShortDesc</p>
                                                 </div>

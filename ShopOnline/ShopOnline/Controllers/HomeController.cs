@@ -39,7 +39,7 @@ namespace ShopOnline.Controllers
                 productHome.category = item;
                 productHome.lsProducts = lsProducts.Where(x => x.CatId == item.CatId).ToList();
                 lsProductViews.Add(productHome);
-
+            }
                 var quangcao = _context.QuangCaos
                     .AsNoTracking()
                     .FirstOrDefault(x => x.Active == true);
@@ -58,7 +58,7 @@ namespace ShopOnline.Controllers
                 model.TinTucs = TinTuc;
                 model.Sliders = Slider;
                 ViewBag.AllProducts = lsProducts;
-            }
+            
             return View(model);
         }
 

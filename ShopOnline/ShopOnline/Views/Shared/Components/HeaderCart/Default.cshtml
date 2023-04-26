@@ -17,7 +17,7 @@
                         </a>
                         <div class="product-item_content">
                             <a class="product-item_title" href="@url">@item.product.ProductName</a>
-                            <span class="product-item_quantity">@item.amount x @item.product.Price.Value.ToString("#,##0") VNĐ</span>
+                            <span class="product-item_quantity">@item.amount x @((item.product.Price / 100 * (100 - item.product.Discount)).Value.ToString("#,##0")) VNĐ</span>
                         </div>
                     </li>
                 }
@@ -25,7 +25,7 @@
         </div>
         <div class="minicart-item_total">
             <span>Tổng tiền</span>
-            <span class="ammount">@Model.Sum(x => x.TotalMoney).ToString("#,##0") VNĐ</span>
+            <span class="ammount">@Model.Sum(x => x.product.Price / 100 * ( 100 - x.product.Discount) * x.amount).Value.ToString("#,##0") VNĐ</span>
         </div>
         <div class="group-btn_wrap d-grid gap-2">
             <a href="cart.html" class="btn btn-secondary btn-primary-hover">Xem giỏ hàng</a>

@@ -1,5 +1,6 @@
 ﻿@model ShopOnline.ModelViews.XemDonHang
 @{
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var total = Model.ChiTietDonHang.Sum(x => x.TotalMoney).Value.ToString("#,##0");
 }
 <h3>Thông tin đơn hàng: #@Model.DonHang.OrderId</h3>

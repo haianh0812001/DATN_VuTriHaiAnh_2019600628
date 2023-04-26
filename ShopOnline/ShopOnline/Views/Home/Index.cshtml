@@ -98,9 +98,6 @@
                 <ul class="nav product-tab-nav pb-10" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <a class="active" id="all-items-tab" data-bs-toggle="tab" href="#all-items" role="tab" aria-controls="all-items" aria-selected="true">
-                            @*<div class="product-tab-icon">
-                                <img src="/assets/images/product/icon/1.png" alt="Product Icon">
-                            </div>*@
                             Tất cả sản phẩm
                         </a>
                     </li>
@@ -108,9 +105,6 @@
                     {
                         <li class="nav-item" role="presentation">
                             <a id="fresh-fruits-tab" data-bs-toggle="tab" href="#@item.category.Alias" role="tab" aria-controls="fresh-fruits" aria-selected="false">
-                                @*<div class="product-tab-icon">
-                                    <img style="width:80%;height:auto" src="~/images/category/@item.category.Thumb" alt="@item.category.Title">
-                                </div>*@
                                 @item.category.CatName
                             </a>
                         </li>
@@ -198,7 +192,7 @@
                                     <div class="blog-item">
                                         <div class="blog-img img-zoom-effect">
                                             <a href="@url">
-                                                <img width="200" height="200" class="img-full" src="~/images/news/@item.Thumb" alt="@item.Title">
+                                                <img width="200" height="200" src="~/images/news/@item.Thumb" alt="@item.Title">
                                             </a>
                                         </div>
                                         <div class="blog-content">

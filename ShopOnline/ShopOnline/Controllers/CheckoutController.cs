@@ -82,7 +82,7 @@ namespace ShopOnline.Controllers
                 donhang.Deleted = false;
                 donhang.Paid = false;
                 donhang.Note = Utilities.StripHTML(model.Note);
-                donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.TotalMoney));
+                donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.product.Price / 100 * (100 - x.product.Discount) * x.amount));
                 _context.Add(donhang);
                 _context.SaveChanges();
                 //tao danh sach don hang

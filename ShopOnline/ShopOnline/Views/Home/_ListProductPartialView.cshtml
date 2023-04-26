@@ -9,7 +9,7 @@
                 <div class="product-item">
                     <div class="product-img img-zoom-effect">
                         <a href="@url">
-                            <img width="200" height="200" class="img-full" src="~/images/products/@item.Thumb" alt="@item.Title">
+                            <img width="200" height="200" src="~/images/products/@item.Thumb" alt="@item.Title">
                         </a>
                         <div class="product-add-action">
                             <ul>
@@ -24,7 +24,7 @@
                     <div class="product-content">
                         <a class="product-name" href="@url">@item.ProductName</a>
                         <div class="price-box pb-1">
-                            <span class="new-price">@item.Price.Value.ToString("#,##0") VNĐ</span>
+                            <span class="new-price">@((item.Price / 100 * (100 - item.Discount)).Value.ToString("#,##0")) VNĐ</span>
                         </div>
                     </div>
                 </div>
