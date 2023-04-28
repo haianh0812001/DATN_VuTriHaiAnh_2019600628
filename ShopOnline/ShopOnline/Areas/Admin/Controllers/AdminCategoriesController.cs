@@ -32,7 +32,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         public IActionResult Index(int? page)
         {
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 20;
+            var pageSize = 10;
             var lsCategorys = _context.Categories
                 .AsNoTracking()
                 .OrderBy(x => x.CatId);
@@ -131,6 +131,7 @@ namespace ShopOnline.Areas.Admin.Controllers
                         category.Thumb = await Utilities.UploadFile(fThumb, @"category", imageName.ToLower());
                     }
                     if (string.IsNullOrEmpty(category.Thumb)) category.Thumb = "default.jpg";
+                    category.Alias = Utilities.SEOUrl(category.CatName);
                     _context.Update(category);
                     await _context.SaveChangesAsync();
                     _notyfService.Success("Chỉnh sửa thành công");

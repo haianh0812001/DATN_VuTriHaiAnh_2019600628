@@ -32,7 +32,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         public IActionResult Index(int? page)
         {
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 20;
+            var pageSize = 10;
             var lsSlider = _context.Sliders
                 .AsNoTracking()
                 .OrderBy(x => x.SliderId);

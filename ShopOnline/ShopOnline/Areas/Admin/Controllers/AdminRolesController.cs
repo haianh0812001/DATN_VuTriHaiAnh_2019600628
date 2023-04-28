@@ -152,7 +152,7 @@ namespace ShopOnline.Areas.Admin.Controllers
             var role = await _context.Roles.FindAsync(id);
             _context.Roles.Remove(role);
             await _context.SaveChangesAsync();
-            _notyfService.Success("Xóa quyền truy cập thành công");
+            _notyfService.Success("Xóa thành công");
             return RedirectToAction(nameof(Index));
         }
 

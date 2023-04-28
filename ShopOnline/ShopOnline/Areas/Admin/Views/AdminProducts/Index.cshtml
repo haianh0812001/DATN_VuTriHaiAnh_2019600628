@@ -1,8 +1,8 @@
 ﻿@using PagedList.Core.Mvc
 @model PagedList.Core.IPagedList<ShopOnline.Models.Product>
-
 @{
-    int CurrentPage = ViewBag.CurrentPage;
+    var PageCurrent = ViewBag.CurrentPage;
+    var PageNext = PageCurrent + 1;
     ViewData["Title"] = "Danh sách sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
@@ -10,7 +10,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
-            <span class="breadcrumb-item active">Danh sách sản phẩm : trang @CurrentPage</span>
+            <span class="breadcrumb-item active">Danh sách sản phẩm : trang @PageCurrent</span>
         </nav>
     </div>
 </div>
@@ -103,7 +103,7 @@
             </table>
             <div aria-label="Page navigation example">
                 <ul class="pagination">
-                    <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="AdminProducts" asp-route-CatID="@ViewBag.CurrentCateID" asp-action="Index" />
+                    <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="Admin" asp-controller="AdminProducts" asp-route-CatID="@ViewBag.CurrentCateID" asp-action="Index"></pager>
                 </ul>
             </div>
         </div>

@@ -18,12 +18,14 @@ namespace ShopOnline.Controllers
             try
             {
                 var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-                var pageSize = 10;
+                var pageSize = 12;
+                
                 var lsTinDangs = _context.Products
                     .AsNoTracking()
                     .OrderBy(x => x.DateCreated);
-                PagedList<Product> models = new PagedList<Product>(lsTinDangs, pageNumber, pageSize);
-
+                var sum = lsTinDangs.Count();
+                PagedList <Product> models = new PagedList<Product>(lsTinDangs, pageNumber, pageSize);
+                ViewBag.sum = sum;
                 ViewBag.CurrentPage = pageNumber;
                 return View(models);
             }
@@ -31,15 +33,13 @@ namespace ShopOnline.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
-
-
         }
         [Route("danhmuc/{Alias}", Name = ("ListProduct"))]
         public IActionResult List(string Alias, int page = 1)
         {
             try
             {
-                var pageSize = 10;
+                var pageSize = 12;
                 var danhmuc = _context.Categories.AsNoTracking().SingleOrDefault(x => x.Alias == Alias);
 
                 var lsTinDangs = _context.Products
@@ -47,6 +47,8 @@ namespace ShopOnline.Controllers
                     .Where(x => x.CatId == danhmuc.CatId)
                     .OrderByDescending(x => x.DateCreated);
                 PagedList<Product> models = new PagedList<Product>(lsTinDangs, page, pageSize);
+                var sum = lsTinDangs.Count();
+                ViewBag.sum = sum;
                 ViewBag.CurrentPage = page;
                 ViewBag.CurrentCat = danhmuc;
                 return View(models);

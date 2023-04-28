@@ -2,6 +2,7 @@
 @model PagedList.Core.IPagedList<ShopOnline.Models.Order>
 @{
     int CurrentPage = ViewBag.CurrentPage;
+    var PageNext = CurrentPage + 1;
     ViewData["Title"] = "Danh sách đơn hàng" + CurrentPage;
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
@@ -56,7 +57,7 @@
             </table>
             <div aria-label="Page navigation example">
                 <ul class="pagination">
-                    <pager class="pager-container" list="@Model" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index" />
+                    <pager class="pager-container" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" list="@Model" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index" />
                 </ul>
             </div>
         </div>

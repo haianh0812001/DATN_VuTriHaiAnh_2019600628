@@ -31,8 +31,10 @@ namespace ShopOnline.Controllers
                 var donhang = await _context.Orders
                     .Include(x => x.TransactStatus)
                     .FirstOrDefaultAsync(m => m.OrderId == id && Convert.ToInt32(taikhoanID) == m.CustomerId);
-                if (donhang == null) return NotFound();
-
+                if (donhang == null)
+                {
+                    return NotFound();
+                }
                 var chitietdonhang = _context.OrderDetails
                     .Include(x => x.Product)
                     .AsNoTracking()

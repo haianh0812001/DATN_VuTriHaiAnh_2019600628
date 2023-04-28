@@ -95,39 +95,48 @@ namespace ShopOnline.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    string salt = Utilities.GetRandomKey();
-                    Customer khachhang = new Customer
+                    var check = _context.Customers.FirstOrDefault(x => x.Email == taikhoan.Email);
+                    if (check == null)
                     {
-                        FullName = taikhoan.FullName,
-                        Phone = taikhoan.Phone.Trim().ToLower(),
-                        Email = taikhoan.Email.Trim().ToLower(),
-                        Password = (taikhoan.Password + salt.Trim()).ToMD5(),
-                        Active = true,
-                        Salt = salt,
-                        CreateDate = DateTime.Now
-                    };
-                    try
-                    {
-                        _context.Add(khachhang);
-                        await _context.SaveChangesAsync();
-                        //Lưu Session MaKh
-                        HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
-                        var taikhoanID = HttpContext.Session.GetString("CustomerId");
+                        string salt = Utilities.GetRandomKey();
+                        Customer khachhang = new Customer
+                        {
+                            FullName = taikhoan.FullName,
+                            Phone = taikhoan.Phone.Trim().ToLower(),
+                            Email = taikhoan.Email.Trim().ToLower(),
+                            Password = (taikhoan.Password + salt.Trim()).ToMD5(),
+                            Active = true,
+                            Salt = salt,
+                            CreateDate = DateTime.Now
+                        };
+                        try
+                        {
+                            _context.Add(khachhang);
+                            await _context.SaveChangesAsync();
+                            //Lưu Session MaKh
+                            HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
+                            var taikhoanID = HttpContext.Session.GetString("CustomerId");
 
-                        //Identity
-                        var claims = new List<Claim>
+                            //Identity
+                            var claims = new List<Claim>
                         {
                             new Claim(ClaimTypes.Name,khachhang.FullName),
                             new Claim("CustomerId", khachhang.CustomerId.ToString())
                         };
-                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
-                        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                        await HttpContext.SignInAsync(claimsPrincipal);
-                        _notyfService.Success("Đăng ký thành công");
-                        return RedirectToAction("Dashboard", "Accounts");
+                            ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
+                            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                            await HttpContext.SignInAsync(claimsPrincipal);
+                            _notyfService.Success("Đăng ký thành công");
+                            return RedirectToAction("Dashboard", "Accounts");
+                        }
+                        catch
+                        {
+                            return RedirectToAction("DangkyTaiKhoan", "Accounts");
+                        }
                     }
-                    catch
+                    else
                     {
+                        _notyfService.Success("Email đã được sử dụng!");
                         return RedirectToAction("DangkyTaiKhoan", "Accounts");
                     }
                 }
@@ -166,7 +175,10 @@ namespace ShopOnline.Controllers
 
                     var khachhang = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
 
-                    if (khachhang == null) return RedirectToAction("DangkyTaiKhoan");
+                    if (khachhang == null)
+                    {
+                        _notyfService.Success("Email không chính xác!");                     
+                    }
                     string pass = (customer.Password + khachhang.Salt.Trim()).ToMD5();
                     if (khachhang.Password != pass)
                     {
@@ -196,7 +208,7 @@ namespace ShopOnline.Controllers
                     _notyfService.Success("Đăng nhập thành công");
                     if (string.IsNullOrEmpty(returnUrl))
                     {
-                    return RedirectToAction("Dashboard", "Accounts");
+                    return RedirectToAction("Index", "Home");
                     }
                     else
                     {

@@ -196,6 +196,7 @@ namespace ShopOnline.Areas.Admin.Controllers
             var account = await _context.Accounts.FindAsync(id);
             _context.Accounts.Remove(account);
             await _context.SaveChangesAsync();
+            _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
 

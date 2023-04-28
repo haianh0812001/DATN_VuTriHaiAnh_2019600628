@@ -61,10 +61,12 @@
                             <select class="custom-select" asp-for="CatId" style="min-width: 200px;" asp-items="ViewBag.DanhMuc">
                                 <option value="" disabled selected>Chọn danh mục</option>
                             </select>
+                            <span asp-validation-for="CatId"></span>
                         </div>
                         <div class="form-group col-6">
                             <label class="font-weight-semibold" for="productName">Hàng tồn kho</label>
                             <input type="text" class="form-control" asp-for="UnitsInStock">
+                            <span asp-validation-for="UnitsInStock"></span>
                         </div>
                     </div>
                     <div class="form-group">

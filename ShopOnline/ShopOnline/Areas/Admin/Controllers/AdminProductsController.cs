@@ -30,7 +30,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         public IActionResult Index(int page = 1, int CatID = 0)
         {
             var pageNumber = page;
-            var pageSize = 20;
+            var pageSize = 10;
 
             List<Product> lsProducts = new List<Product>();
             if (CatID != 0)
@@ -105,21 +105,40 @@ namespace ShopOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                product.ProductName = Utilities.ToTitleCase(product.ProductName);
-                if (fThumb != null)
+                try
                 {
-                    string extension = Path.GetExtension(fThumb.FileName);
-                    string image = Utilities.SEOUrl(product.ProductName) + extension;
-                    product.Thumb = await Utilities.UploadFile(fThumb, @"products", image.ToLower());
-                }
-                if (string.IsNullOrEmpty(product.Thumb)) product.Thumb = "default.jpg";
-                product.Alias = Utilities.SEOUrl(product.ProductName);
-                product.DateModified = DateTime.Now;
-                product.DateCreated = DateTime.Now;
+                    product.ProductName = Utilities.ToTitleCase(product.ProductName);
+                    if (fThumb != null)
+                    {
+                        string extension = Path.GetExtension(fThumb.FileName);
+                        string image = Utilities.SEOUrl(product.ProductName) + extension;
+                        product.Thumb = await Utilities.UploadFile(fThumb, @"products", image.ToLower());
+                    }
+                    if (string.IsNullOrEmpty(product.Thumb)) product.Thumb = "default.jpg";
+                    if (product.Discount == null)
+                    {
+                        product.Discount = 0;
+                    }
+                    product.Alias = Utilities.SEOUrl(product.ProductName);
+                    product.DateModified = DateTime.Now;
+                    product.DateCreated = DateTime.Now;
 
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                _notyfService.Success("Thêm mới thành công");
+                    _context.Add(product);
+                    await _context.SaveChangesAsync();
+                    _notyfService.Success("Thêm mới thành công");
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ProductExists(product.ProductId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);

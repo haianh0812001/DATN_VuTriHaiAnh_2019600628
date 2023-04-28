@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreHero.ToastNotification.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -16,17 +17,18 @@ namespace ShopOnline.Areas.Admin.Controllers
     public class AdminCustomersController : Controller
     {
         private readonly dbMarketsContext _context;
-
-        public AdminCustomersController(dbMarketsContext context)
+        public INotyfService _notyfService { get; }
+        public AdminCustomersController(dbMarketsContext context, INotyfService notyfService)
         {
             _context = context;
+            _notyfService = notyfService;
         }
 
         // GET: Admin/AdminCustomers
         public IActionResult Index(int? page)
         {
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
-            var pageSize = 20;
+            var pageSize = 10;
             var lsCustomers = _context.Customers
                 .AsNoTracking()
                 .OrderByDescending(x => x.CreateDate);
@@ -153,6 +155,7 @@ namespace ShopOnline.Areas.Admin.Controllers
             var customer = await _context.Customers.FindAsync(id);
             _context.Customers.Remove(customer);
             await _context.SaveChangesAsync();
+            _notyfService.Success("Xóa thành công!");
             return RedirectToAction(nameof(Index));
         }
 
