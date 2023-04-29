@@ -13,7 +13,13 @@
         </nav>
     </div>
 </div>
-
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminRoles" asp-action="Edit" asp-route-id="@Model.RoleId">Sửa đổi</a>
+        </div>
+    </div>
+</div>
 <div class="card-body">
     <h4 class="card-title">Thông tin quyền truy cập</h4>
     <div class="table-responsive">

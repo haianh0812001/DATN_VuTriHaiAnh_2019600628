@@ -50,20 +50,19 @@
             <td>
                 @if (item.Published == true)
                 {
-
-
-<div class="d-flex align-items-center">
-    <div class="badge badge-success badge-dot m-r-10"></div>
-    <div>Public</div>
-</div> }
-else
-{
-<div class="d-flex align-items-center">
-    <div class="badge badge-success badge-dot m-r-10"></div>
-    <div>Non-Public</div>
-</div>}
-
-            </td>
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div>Public</div>
+                    </div> 
+                }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Non-Public</div>
+                                        </div>
+                                    }
+                                </td>
 
             <td>
                 <a class="btn btn-primary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminCategories" asp-action="Details" asp-route-id="@item.CatId">Chi tiết</a>

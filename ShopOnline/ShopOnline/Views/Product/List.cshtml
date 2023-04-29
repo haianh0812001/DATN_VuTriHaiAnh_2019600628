@@ -8,6 +8,7 @@
     int PageCurrent = ViewBag.CurrentPage;
     int PageNext = PageCurrent + 1;
     var sum = ViewBag.sum;
+    var category2 = ViewBag.CurrentCat2;
 }
 
 <main class="main-content">
@@ -43,74 +44,16 @@
                             <div class="widgets-item">
                                 <ul class="widgets-checkbox">
                                     <li>
-                                        <input class="input-checkbox" type="checkbox" id="refine-item">
-                                        <label class="label-checkbox mb-0" for="refine-item">
-                                            On Sale
-                                            <span>4</span>
-                                        </label>
+                                        <a href="/shop.html">
+                                            Tất cả sản phẩm
+                                        </a>
                                     </li>
+                                    @foreach (var item in category2)
+                                    {
                                     <li>
-                                        <input class="input-checkbox" type="checkbox" id="refine-item-2" checked>
-                                        <label class="label-checkbox mb-0" for="refine-item-2">
-                                            New
-                                            <span>4</span>
-                                        </label>
+                                        <a href="@item.Alias">@item.CatName</a>
                                     </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="refine-item-3">
-                                        <label class="label-checkbox mb-0" for="refine-item-3">
-                                            In Stock
-                                            <span>4</span>
-                                        </label>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="widgets-area widgets-filter mb-9">
-                            <h2 class="widgets-title mb-5">Price Filter</h2>
-                            <div class="price-filter">
-                                <div id="slider-range"></div>
-                                <div class="price-slider-amount">
-                                    <button class="btn btn-primary btn-secondary-hover">Filter</button>
-                                    <div class="label-input position-relative">
-                                        <label>price : </label>
-                                        <input type="text" id="amount" name="price" placeholder="Add Your Price" />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="widgets-area mb-9">
-                            <h2 class="widgets-title mb-5">Color</h2>
-                            <div class="widgets-item">
-                                <ul class="widgets-checkbox">
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="color-selection-1">
-                                        <label class="label-checkbox mb-0" for="color-selection-1">
-                                            Green
-                                            <span>7</span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="color-selection-2" checked>
-                                        <label class="label-checkbox mb-0" for="color-selection-2">
-                                            Cream
-                                            <span>3</span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="color-selection-3">
-                                        <label class="label-checkbox mb-0" for="color-selection-3">
-                                            Blue
-                                            <span>4</span>
-                                        </label>
-                                    </li>
-                                    <li>
-                                        <input class="input-checkbox" type="checkbox" id="color-selection-4">
-                                        <label class="label-checkbox mb-0" for="color-selection-4">
-                                            Black
-                                            <span>6</span>
-                                        </label>
-                                    </li>
+                                }
                                 </ul>
                             </div>
                         </div>
@@ -164,37 +107,26 @@
                                                     </a>
                                                     <div class="product-add-action">
                                                         <ul>
-                                                            <li>
-                                                                <a href="cart.html">
-                                                                    <i class="pe-7s-cart"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="compare.html">
-                                                                    <i class="pe-7s-shuffle"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="wishlist.html">
-                                                                    <i class="pe-7s-like"></i>
-                                                                </a>
-                                                            </li>
+                                                        <li>
+                                                            <a href="cart.html">
+                                                                <i class="pe-7s-cart"></i>
+                                                            </a>
+                                                        </li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="product-content">
                                                     <a class="product-name" href="@url">@item.ProductName</a>
                                                     <div class="price-box pb-1">
-                                                        <span class="new-price">@item.Price.Value.ToString("#,##0") VNĐ</span>
-                                                    </div>
-                                                    <div class="rating-box">
-                                                        <ul>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                        </ul>
+                                                        @if (item.Discount > 0)
+                                                        {
+                                                            <span class="new-price text-danger">@(((item.Price / 100 * (100 - item.Discount) / 10000) * 10000).Value.ToString("#,##0")) VNĐ</span>
+                                                            <span class="old-price text-primary">@(item.Price.Value.ToString("#,##0")) VNĐ</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="new-price text-danger">@(item.Price.Value.ToString("#,##0")) VNĐ</span>
+                                                        }
                                                     </div>
                                                 </div>
                                             </div>
@@ -224,32 +156,21 @@
                                                                     <i class="pe-7s-cart"></i>
                                                                 </a>
                                                             </li>
-                                                            <li>
-                                                                <a href="compare.html">
-                                                                    <i class="pe-7s-shuffle"></i>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a href="wishlist.html">
-                                                                    <i class="pe-7s-like"></i>
-                                                                </a>
-                                                            </li>
                                                         </ul>
                                                     </div>
                                                 </div>
                                                 <div class="product-content align-self-center">
                                                     <a class="product-name pb-2" href="@url">@item.ProductName</a>
                                                     <div class="price-box pb-1">
-                                                        <span class="new-price">@item.Price</span>
-                                                    </div>
-                                                    <div class="rating-box pb-2">
-                                                        <ul>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                            <li><i class="pe-7s-star"></i></li>
-                                                        </ul>
+                                                        @if (item.Discount > 0)
+                                                        {
+                                                        <span class="new-price text-danger">@((item.Price / 100 * (100 - item.Discount) / 10000 * 10000).Value.ToString("#,##0")) VNĐ</span>
+                                                            <span class="old-price text-primary">@(item.Price.Value.ToString("#,##0")) VNĐ</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="new-price text-danger">@(item.Price.Value.ToString("#,##0")) VNĐ</span>
+                                                        }
                                                     </div>
                                                     <p class="short-desc mb-0">@item.ShortDesc</p>
                                                 </div>
@@ -266,7 +187,8 @@
                             <pager class="pager-container" list="@Model" options="@PagedListRenderOptions.Bootstrap4PageNumbersOnly" asp-area="" asp-controller="Product" asp-route-Alias="@category.Alias" asp-action="List" />
                         </ul>
                     </div>
-
+                    <br />
+                    <br />
                 </div>
             </div>
         </div>

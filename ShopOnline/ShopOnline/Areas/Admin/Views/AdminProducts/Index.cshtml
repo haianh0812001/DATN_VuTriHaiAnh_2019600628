@@ -50,6 +50,7 @@
                         <th>Giá</th>
                         <th>Tồn kho</th>
                         <th>Trạng thái</th>
+                        <th>Giảm giá</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -87,7 +88,23 @@
                                             <div>Hết hàng</div>
                                         </div>
                                     }
-
+                                </td>
+                                <td>
+                                    @if (item.Discount.Value > 0)
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-success badge-dot m-r-10"></div>
+                                            <div>Có</div>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center">
+                                            <div class="badge badge-danger badge-dot m-r-10"></div>
+                                            <div>Không</div>
+                                        </div>
+                                    }
+                                </td>
                                 <td>
                                     <a class="btn btn-primary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminProducts" asp-action="Details" asp-route-id="@item.ProductId">Chi tiết</a>
                                     <a class="btn btn-secondary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminProducts" asp-action="Edit" asp-route-id="@item.ProductId">Sửa</a>

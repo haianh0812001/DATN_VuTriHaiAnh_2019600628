@@ -13,19 +13,20 @@ namespace ShopOnline.Controllers
             _context = context;
         }
         [Route("shop.html", Name = ("ShopProduct"))]
-        public IActionResult Index(int? page)
+        public IActionResult Index(string Alias, int? page)
         {
             try
             {
                 var pageNumber = page == null || page <= 0 ? 1 : page.Value;
                 var pageSize = 12;
-                
+                var danhmuc = _context.Categories.ToList();
                 var lsTinDangs = _context.Products
                     .AsNoTracking()
                     .OrderBy(x => x.DateCreated);
                 var sum = lsTinDangs.Count();
                 PagedList <Product> models = new PagedList<Product>(lsTinDangs, pageNumber, pageSize);
                 ViewBag.sum = sum;
+                ViewBag.CurrentCat = danhmuc;
                 ViewBag.CurrentPage = pageNumber;
                 return View(models);
             }
@@ -41,16 +42,17 @@ namespace ShopOnline.Controllers
             {
                 var pageSize = 12;
                 var danhmuc = _context.Categories.AsNoTracking().SingleOrDefault(x => x.Alias == Alias);
-
                 var lsTinDangs = _context.Products
                     .AsNoTracking()
                     .Where(x => x.CatId == danhmuc.CatId)
                     .OrderByDescending(x => x.DateCreated);
+                var danhmuc2 = _context.Categories.ToList(); ;
                 PagedList<Product> models = new PagedList<Product>(lsTinDangs, page, pageSize);
                 var sum = lsTinDangs.Count();
                 ViewBag.sum = sum;
                 ViewBag.CurrentPage = page;
                 ViewBag.CurrentCat = danhmuc;
+                ViewBag.CurrentCat2 = danhmuc2;
                 return View(models);
             }
             catch

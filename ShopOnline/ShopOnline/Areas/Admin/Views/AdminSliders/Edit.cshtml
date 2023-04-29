@@ -12,6 +12,7 @@
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminSliders" asp-action="Index" class="breadcrumb-item">Danh sách slider</a>
             <span class="breadcrumb-item active">Chỉnh sửa Slider: @Model.SliderName</span>
         </nav>
     </div>
@@ -40,7 +41,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="productName">Tên Page</label>
+                        <label class="font-weight-semibold" for="productName">Tên Slider</label>
                         <input type="text" class="form-control" asp-for="SliderName">
                     </div>
                     <div class="form-group">
@@ -49,7 +50,7 @@
                         <span asp-validation-for="BgImage" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label class="font-weight-semibold" for="productName">Tên Slider</label>
+                        <label class="font-weight-semibold" for="productName">Chi tiết</label>
                         <input type="text" class="form-control" asp-for="Contents">
                     </div>
                 </div>

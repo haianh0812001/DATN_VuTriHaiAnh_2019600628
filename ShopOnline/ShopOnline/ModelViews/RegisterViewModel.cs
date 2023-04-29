@@ -15,6 +15,7 @@ namespace ShopOnline.ModelViews
 
         [MaxLength(150)]
         [Required(ErrorMessage = "Vui lòng nhập Email")]
+        [EmailAddress(ErrorMessage = "Sai định dạng Email")]
         [DataType(DataType.EmailAddress)]
         [Remote(action: "ValidateEmail", controller: "Accounts")]
         public string? Email { get; set; }

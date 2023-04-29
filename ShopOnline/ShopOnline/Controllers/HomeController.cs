@@ -53,10 +53,16 @@ namespace ShopOnline.Controllers
                 var Slider = _context.Sliders
                     .AsNoTracking()
                     .ToList();
+                var sell = _context.Products
+                    .AsNoTracking()
+                    .Where(x => x.Active == true && x.HomeFlag == true && x.BestSellers == true)
+                    .OrderByDescending(x => x.Discount)
+                    .ToList();
                 model.Products = lsProductViews;
                 model.quangcao = quangcao;
                 model.TinTucs = TinTuc;
                 model.Sliders = Slider;
+                ViewBag.Sell = sell;
                 ViewBag.AllProducts = lsProducts;
             
             return View(model);

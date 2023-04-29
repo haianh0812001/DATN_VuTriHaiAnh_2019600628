@@ -1,6 +1,6 @@
 ﻿@model ShopOnline.ModelViews.XemDonHang
 @{
-    var total = Model.ChiTietDonHang.Sum(x => x.TotalMoney).Value.ToString("#,##0");
+    var total = Model.ChiTietDonHang.Sum(x => x.Product.Price / 100 * (100 - x.Product.Discount) / 10000 * 10000 * x.Amount).Value.ToString("#,##0");
 }
 <h3>Thông tin đơn hàng: #@Model.DonHang.OrderId</h3>
 <br />
@@ -27,7 +27,7 @@
                     <td>@item.Product.ProductName</td>
                     <td>@item.Amount</td>
                     <td>@item.Product.ProductName</td>
-                    <td>@item.TotalMoney.Value.ToString("#,##0") VNĐ</td>
+                    <td>@((item.Product.Price / 100 * (100 - item.Product.Discount) / 10000 * 10000 * item.Amount).Value.ToString("#,##0")) VNĐ</td>
                 </tr>
             }
         </tbody>

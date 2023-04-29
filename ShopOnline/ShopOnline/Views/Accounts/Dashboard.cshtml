@@ -6,6 +6,7 @@
     List<Order> DanhSachDonHang = ViewBag.DonHang;
     var total = DanhSachDonHang.Sum(x => x.TotalMoney).ToString("#,##0");
     ShopOnline.ModelViews.ChangePasswordViewModel changePassword = new ShopOnline.ModelViews.ChangePasswordViewModel();
+    ShopOnline.ModelViews.UpdateProfileViewModel updateProfile = new ShopOnline.ModelViews.UpdateProfileViewModel();
 }
 
 <main class="main-content">
@@ -40,6 +41,9 @@
                         <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details" role="tab" aria-controls="account-details" aria-selected="false">Thay đổi mật khẩu</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="account-update-tab" data-bs-toggle="tab" href="#account-update" role="tab" aria-controls="account-update" aria-selected="false">Cập nhật thông tin</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" id="account-logout-tab" href="dang-xuat.html" role="tab" aria-selected="false">Đăng xuất</a>
                     </li>
                 </ul>
@@ -54,6 +58,7 @@
                             <p>Email: @Model.Email</p>
                             <p>Số điện thoại: @Model.Phone</p>
                             <p>Địa chỉ: @Model.Address</p>
+                            <p>Ngày sinh: @Model.Birthday.Value.ToString("dd/MM/yyyy")</p>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="account-orders" role="tabpanel" aria-labelledby="account-orders-tab">
@@ -103,6 +108,9 @@
                     </div>
                     <div class="tab-pane fade" id="account-details" role="tabpanel" aria-labelledby="account-details-tab">
                         @await Html.PartialAsync("_ChangePasswordPartialView", changePassword)
+                    </div>
+                    <div class="tab-pane fade" id="account-update" role="tabpanel" aria-labelledby="account-update-tab">
+                        @await Html.PartialAsync("_UpdateProfilePartialView", updateProfile)
                     </div>
                 </div>
             </div>

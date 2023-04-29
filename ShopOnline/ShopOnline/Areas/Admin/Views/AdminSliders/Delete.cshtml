@@ -5,9 +5,26 @@
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h1>Delete</h1>
-
-<h3>Bạn có chắc chắn muốn xóa?</h3>
+<div class="page-header">
+    <div class="header-sub-title">
+        <nav class="breadcrumb breadcrumb-dash">
+            <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
+            <a asp-area="Admin" asp-controller="AdminSliders" asp-action="Index" class="breadcrumb-item">Danh sách slider</a>
+            <span class="breadcrumb-item active">Chỉnh sửa Slider: @Model.SliderName</span>
+        </nav>
+    </div>
+</div>
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="SliderId" />
+                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <a asp-action="Index">Back to List</a>
+            </form>
+        </div>
+    </div>
+</div>
 <div>
     <table class="table table-hover e-commerce-table">
         <thead>
@@ -34,9 +51,5 @@
         </thead>
     </table>
     
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="SliderId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+    
 </div>

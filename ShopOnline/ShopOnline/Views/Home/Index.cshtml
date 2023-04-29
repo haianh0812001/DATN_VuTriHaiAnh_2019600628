@@ -3,6 +3,7 @@
     ViewData["Title"] = "Trang chủ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Product> allProduct = ViewBag.AllProducts;
+    var sell = ViewBag.Sell;
 }
 
 <!-- Begin Slider Area -->
@@ -93,6 +94,9 @@
 <!-- Begin Product Area -->
 <div class="product-area section-space-top-100">
     <div class="container">
+        <div class="section-title text-center pb-55">
+            <h2 class="title mb-0">Sản phẩm mới nhất</h2>
+        </div>
         <div class="row">
             <div class="col-lg-12">
                 <ul class="nav product-tab-nav pb-10" id="myTab" role="tablist">
@@ -122,6 +126,16 @@
                             </div>
                         }
                     </div>
+                    <br />
+                    <br />
+                    <ul class="nav product-tab-nav pb-10" id="myTab" role="tablist" >
+                    <li class="nav-item" role="presentation" style="text-align:right;">
+                            <a href="shop.html">
+                                Tất cả sản phẩm
+                            </a>
+                        </li>
+                    </ul>
+                
             </div>
         </div>
     </div>
@@ -129,6 +143,54 @@
 
 <!-- Product Area End Here -->
 
+<!-- Sell Area Start Here -->
+@if (Model != null)
+{
+    var s = 0;
+    <div class="product-slider-area section-space-top-95 section-space-bottom-100">
+        <div class="container">
+            <div class="section-title text-center pb-55">
+                <h2 class="title mb-0">Sản phẩm giảm giá</h2>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="swiper-slider-holder swiper-arrow">
+                        <div class="swiper-container product-slider border-issue">
+                            <div class="swiper-wrapper">
+                            @foreach (var item in sell)
+                            {
+                                string url = $"/{item.Alias}-{item.ProductId}.html";
+                                <div class="swiper-slide">
+                                    <div class="product-item">
+                                            <div class="product-img img-zoom-effect">
+                                                <a href="@url">
+                                                    <img class="img-full" src="~/images/products/@item.Thumb" alt="@item.Title">
+                                                </a>
+                                                <div class="inner-content">
+                                                    <div class="button-wrap" style="text-align: center;">
+                                                        <a class="btn btn-primary btn-white-hover rounded-0" href="shop.html">Mua hàng ngay</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="@url" class="product-name" style="text-align: center;">
+                                                @item.ProductName
+                                            </a>
+                                            <a style="color: red; align-items: center;">-@item.Discount % Off</a>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+}
+<br />
+<br />
+<br />
+<!-- Sell Area End Here -->
 
 <div class="banner-area banner-style-2 section-space-y-axis-100" data-bg-image="/assets/images/product/1-1.jpg">
     <div class="container">

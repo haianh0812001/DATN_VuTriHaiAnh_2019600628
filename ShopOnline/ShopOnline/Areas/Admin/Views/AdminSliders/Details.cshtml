@@ -14,7 +14,13 @@
         </nav>
     </div>
 </div>
-
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminSliders" asp-action="Edit" asp-route-id="@Model.SliderId">Sửa đổi</a>
+        </div>
+    </div>
+</div>
 <div class="table-responsive">
     <table class="table table-hover e-commerce-table">
         <thead>
@@ -40,9 +46,5 @@
             </tr>
         </thead>
     </table>
-    <form asp-action="Detais">
-        <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminSliders" asp-action="Edit" asp-route-id="@Model.SliderId">Sửa đổi</a> |
-        <a asp-action="Index">Back to List</a>
-    </form>
 </div>
 

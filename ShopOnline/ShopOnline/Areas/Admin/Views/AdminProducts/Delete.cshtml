@@ -10,25 +10,25 @@
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="Home" asp-action="Index" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
             <a asp-area="Admin" asp-controller="AdminProducts" asp-action="Index" class="breadcrumb-item">Danh sách sản phẩm</a>
-            <span class="breadcrumb-item active">Thông tin sản phẩm : @Model.ProductName</span>
+            <span class="breadcrumb-item active">Xóa sản phẩm : @Model.ProductName</span>
         </nav>
     </div>
 </div>
-
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <form asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@Model.ProductId">
+                <input type="hidden" asp-for="ProductId" />
+                <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
+            </form>
+        </div>
+    </div>
+</div>
 <div class="card-body">
     <h4 class="card-title">Thông tin sản phẩm : @Model.ProductName</h4>
     <div class="table-responsive">
         <table class="product-info-table m-t-20">
             <tbody>
-                <tr>
-                    <td>Xác nhận xóa:</td>
-                    <td>
-                        <form asp-controller="AdminProducts" asp-action="Delete" asp-route-id="@Model.ProductId">
-                            <input type="hidden" asp-for="ProductId" />
-                            <input type="submit" value="Xác nhận xóa" class="btn btn-danger" />
-                        </form>
-                    </td>
-                </tr>
                 <tr>
                     <td>ID:</td>
                     <td class="text-dark font-weight-semibold">@Model.ProductId</td>

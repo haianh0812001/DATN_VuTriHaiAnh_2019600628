@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ShopOnline.Areas.Admin.Models;
 using ShopOnline.Extension;
+using ShopOnline.Helpper;
 using ShopOnline.Models;
 
 namespace ShopOnline.Areas.Admin.Controllers
@@ -30,7 +31,7 @@ namespace ShopOnline.Areas.Admin.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "Description");
+            ViewBag.QuyenTruyCap = new SelectList(_context.Roles, "RoleId", "Description");
             List<SelectListItem> lsTrangThai = new List<SelectListItem>
             {
                 new SelectListItem() { Text = "Hoạt động", Value = "1" },
@@ -79,11 +80,23 @@ namespace ShopOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                _context.Add(account);
-                await _context.SaveChangesAsync();
-                _notyfService.Success("Tạo mới tài khoản thành công");
-                return RedirectToAction(nameof(Index));
+                var check = _context.Customers.FirstOrDefault(x => x.Email == account.Email);
+                var check2 = _context.Accounts.FirstOrDefault(x => x.Email == account.Email);
+                if (check != null || check2 != null)
+                {
+                    _notyfService.Success("Email đã được sử dụng!");
+                }
+                else
+                {
+                    string salt = Utilities.GetRandomKey();
+                    account.Password = (account.Password + salt.Trim()).ToMD5();
+                    account.Salt = salt;
+                    account.CreateDate = DateTime.Now;
+                    _context.Add(account);
+                    await _context.SaveChangesAsync();
+                    _notyfService.Success("Tạo mới tài khoản thành công");
+                    return RedirectToAction(nameof(Index));
+                }
             }
             ViewData["QuyenTruyCap"] = new SelectList(_context.Roles, "RoleId", "RoleName", account.RoleId);
             return View(account);

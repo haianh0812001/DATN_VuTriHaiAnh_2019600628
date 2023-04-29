@@ -96,7 +96,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         {
             HttpContext.SignOutAsync();
             HttpContext.Session.Remove("AccountId");
-            return RedirectToAction("AdminLogin", "Account", new { Area = "Admin" });
+            return RedirectToAction("Login", "Accounts");
         }
 
     }

@@ -82,7 +82,7 @@ namespace ShopOnline.Controllers
                 donhang.Deleted = false;
                 donhang.Paid = false;
                 donhang.Note = Utilities.StripHTML(model.Note);
-                donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.product.Price / 100 * (100 - x.product.Discount) * x.amount));
+                donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.product.Price / 100 * (100 - x.product.Discount) /10000 * 10000 * x.amount));
                 _context.Add(donhang);
                 _context.SaveChanges();
                 //tao danh sach don hang
@@ -94,7 +94,7 @@ namespace ShopOnline.Controllers
                     orderDetail.ProductId = item.product.ProductId;
                     orderDetail.Amount = item.amount;
                     orderDetail.TotalMoney = donhang.TotalMoney;
-                    orderDetail.Price = item.product.Price;
+                    orderDetail.Price = item.product.Price / 100 * (100 - item.product.Discount) / 10000 * 10000;
                     orderDetail.CreateDate = DateTime.Now;
                     _context.Add(orderDetail);
                 }

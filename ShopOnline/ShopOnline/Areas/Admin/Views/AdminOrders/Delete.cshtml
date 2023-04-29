@@ -6,15 +6,24 @@
     List<OrderDetail> orderDetails = ViewBag.ChiTiet;
 }
 
-
 <div class="page-header">
     <h2 class="header-title"></h2>
     <div class="header-sub-title">
         <nav class="breadcrumb breadcrumb-dash">
             <a asp-area="Admin" asp-controller="AdminOrders" asp-action="Home" class="breadcrumb-item"><i class="anticon anticon-home m-r-5"></i>Trang chủ</a>
             <a class="breadcrumb-item" asp-area="Admin" asp-controller="AdminOrders" asp-action="Index">Danh sách đơn hàng</a>
-            <span class="breadcrumb-item active">Chi tiết đơn hàng</span>
+            <span class="breadcrumb-item active">Xóa đơn hàng</span>
         </nav>
+    </div>
+</div>
+<div class="page-header no-gutters has-tab">
+    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
+        <div class="m-b-15">
+            <form asp-action="Delete" asp-for-id="@Model.OrderId">
+                <input type="hidden" asp-for="OrderId" />
+                <input type="submit" value="Xác nhận xóa đơn hàng" class="btn btn-danger" />
+            </form>
+        </div>
     </div>
 </div>
 <div class="container">
@@ -77,7 +86,7 @@
                                             <td><a target="_blank" href="@url">@item.Product.ProductName</a></td>
                                             <td>@item.Amount</td>
                                             <td>@item.Price.Value.ToString("#,##0") VNĐ</td>
-                                            <td>@item.TotalMoney.Value.ToString("#,##0") VNĐ</td>
+                                            <td>@((item.Price * item.Amount).Value.ToString("#,##0")) VNĐ</td>
                                         </tr>
                                         i++;
                                     }
@@ -90,7 +99,7 @@
                     <div class="row m-t-30 lh-1-8">
                         <div class="col-sm-12">
                             <div class="float-right text-right">
-                                <h3><span class="font-weight-semibold text-dark">Tổng tiền :</span>@orderDetails.Sum(x => x.TotalMoney).Value.ToString("#,##0") VNĐ</h3>
+                                <h3><span class="font-weight-semibold text-dark">Tổng tiền :</span>@Model.TotalMoney.ToString("#,##0") VNĐ</h3>
                             </div>
                         </div>
                     </div>
@@ -101,8 +110,4 @@
 </div>
 
 
-<form asp-action="Delete" asp-for-id="@Model.OrderId">
-    <input type="hidden" asp-for="OrderId" />
-    <input type="submit" value="Xác nhận xóa đơn hàng" class="btn btn-danger" />
-</form>
 

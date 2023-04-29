@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ShopOnline.Areas.Admin.Models;
 using ShopOnline.Extension;
 using ShopOnline.Helpper;
 using ShopOnline.Models;
@@ -21,6 +20,12 @@ namespace ShopOnline.Controllers
         {
             _context = context;
             _notyfService = notyfService;
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ThongBao()
+        {
+            return View();
         }
         [HttpGet]
         [AllowAnonymous]
@@ -96,7 +101,8 @@ namespace ShopOnline.Controllers
                 if (ModelState.IsValid)
                 {
                     var check = _context.Customers.FirstOrDefault(x => x.Email == taikhoan.Email);
-                    if (check == null)
+                    var check2 = _context.Accounts.FirstOrDefault(x => x.Email == taikhoan.Email);
+                    if (check == null || check2 == null)
                     {
                         string salt = Utilities.GetRandomKey();
                         Customer khachhang = new Customer
@@ -164,63 +170,85 @@ namespace ShopOnline.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("dang-nhap.html", Name = "DangNhap")]
-        public async Task<IActionResult> Login(ModelViews.LoginViewModel customer, string returnUrl = null)
+        public async Task<IActionResult> Login(ModelViews.LoginViewModel account, string returnUrl = null)
         {
             try
             {
                 if (!ModelState.IsValid)
                 {
-                    bool isEmail = Utilities.IsValidEmail(customer.UserName);
-                    if (!isEmail) return View(customer);
-
-                    var khachhang = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == customer.UserName);
-
+                    var khachhang = _context.Customers.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == account.UserName );
+                    var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == account.UserName);
+                    if (admin == null && khachhang == null)
+                    {
+                        _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                        return View(account);
+                    }
                     if (khachhang == null)
                     {
-                        _notyfService.Success("Email không chính xác!");                     
-                    }
-                    string pass = (customer.Password + khachhang.Salt.Trim()).ToMD5();
-                    if (khachhang.Password != pass)
-                    {
-                        _notyfService.Success("Thông tin đăng nhập chưa chính xác");
-                        return View(customer);
-                    }
+                        string pass = (account.Password + admin.Salt.Trim()).ToMD5();
+                        
+                        if (admin.Password != pass)
+                        {
+                            _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                            return View(account);
+                        }
                     //kiem tra xem account co bi disable hay khong
 
-                    if (khachhang.Active == false)
-                    {
-                        return RedirectToAction("ThongBao", "Accounts");
-                    }
-
-                    //Luu Session MaKh
-                    HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
-                    var taikhoanID = HttpContext.Session.GetString("CustomerId");
-
-                    //Identity
-                    var claims = new List<Claim>
-                    {
-                        new Claim(type: ClaimTypes.Name, khachhang.FullName),
-                        new Claim("CustomerId", khachhang.CustomerId.ToString())
-                    };
-                    ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
-                    ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
-                    await HttpContext.SignInAsync(claimsPrincipal);
-                    _notyfService.Success("Đăng nhập thành công");
-                    if (string.IsNullOrEmpty(returnUrl))
-                    {
-                    return RedirectToAction("Index", "Home");
+                        if (admin.Active == false)
+                        {
+                            return RedirectToAction("ThongBao", "Accounts");
+                        }
+                        HttpContext.Session.SetString("AccountID", admin.AccountId.ToString());
+                        var taikhoanAD = HttpContext.Session.GetString("AccountID");
+                        //Identity   
+                        var claims2 = new List<Claim>
+                        {
+                            new Claim(type: ClaimTypes.Name, admin.FullName),
+                            new Claim("AccountID", admin.AccountId.ToString()),
+                        };
+                        ClaimsIdentity claimsIdentity2 = new ClaimsIdentity(claims2, "login");
+                        ClaimsPrincipal claimsPrincipal2 = new ClaimsPrincipal(claimsIdentity2);
+                        await HttpContext.SignInAsync(claimsPrincipal2);
+                        _notyfService.Success("Đăng nhập thành công");
+                        return RedirectToAction("Home", "Admin");
                     }
                     else
                     {
-                        return RedirectToAction("DangKyTaiKhoan", "Accounts");
+                        string pass = (account.Password + khachhang.Salt.Trim()).ToMD5();
+                        if (khachhang.Password != pass)
+                        {
+                            _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                            return View(account);
+                        }
+                    //kiem tra xem account co bi disable hay khong
+
+                        if (khachhang.Active == false)
+                        {
+                            return RedirectToAction("ThongBao", "Accounts");
+                        }
+                        //Luu Session MaKh
+                        HttpContext.Session.SetString("CustomerId", khachhang.CustomerId.ToString());
+                        var taikhoanID = HttpContext.Session.GetString("CustomerId");
+                        //Identity   
+                        var claims = new List<Claim>
+                        {
+                            new Claim(type: ClaimTypes.Name, khachhang.FullName),
+                            new Claim("CustomerId", khachhang.CustomerId.ToString()),
+                        };
+                        ClaimsIdentity claimsIdentity = new ClaimsIdentity(claims, "login");
+                        ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+                        await HttpContext.SignInAsync(claimsPrincipal);
+                        _notyfService.Success("Đăng nhập thành công");
+                        return RedirectToAction("Index", "Home");
                     }
                 }
             }
             catch
             {
-                return RedirectToAction("DangkyTaiKhoan", "Accounts");
+                _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                return View(account);
             }
-            return View(customer);
+            return View(account);
         }
         [HttpGet]
         [Route("dang-xuat.html", Name = "DangXuat")]
@@ -264,5 +292,42 @@ namespace ShopOnline.Controllers
             _notyfService.Success("Thay đổi mật khẩu không thành công");
             return RedirectToAction("Dashboard", "Accounts");
         }
+        [HttpPost]
+        public IActionResult UpdateProfile(ModelViews.UpdateProfileViewModel model)
+        {
+            try
+            {
+                var taikhoanID = HttpContext.Session.GetString("CustomerId");
+                if (taikhoanID == null)
+                {
+                    return RedirectToAction("Login", "Accounts");
+                }
+                if (ModelState.IsValid)
+                {
+                    var taikhoan = _context.Customers.Find(Convert.ToInt32(taikhoanID));
+
+                    if (taikhoan == null) return RedirectToAction("Login", "Accounts");
+                    {
+                        
+                        taikhoan.FullName = model.FullName;
+                        taikhoan.Birthday = model.Birthday;
+                        taikhoan.Address = model.Address;
+                        taikhoan.Phone = model.Phone;
+                        _context.Update(taikhoan);
+                        _context.SaveChanges();
+                        _notyfService.Success("Thay đổi thành công");
+                        return RedirectToAction("Dashboard", "Accounts");
+                    }
+                }
+            }
+            catch
+            {
+                _notyfService.Success("Thông tin thay đổi không ");
+                return RedirectToAction("Dashboard", "Accounts");
+            }
+            _notyfService.Success("Thông tin thay đổi không thành ");
+            return RedirectToAction("Dashboard", "Accounts");
+        }
+
     }
 }

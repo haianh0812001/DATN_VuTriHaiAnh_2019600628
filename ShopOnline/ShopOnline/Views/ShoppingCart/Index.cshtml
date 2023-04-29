@@ -54,13 +54,13 @@
                                                         </a>
                                                     </td>
                                                     <td class="product-name"><a href="javascript:void(0)">@item.product.ProductName</a></td>
-                                                    <td class="product-price"><span class="amount">@((item.product.Price / 100 * (100 - item.product.Discount)).Value.ToString("#,##0")) VNĐ</span></td>
+                                                <td class="product-price"><span class="amount">@((item.product.Price / 100 * (100 - item.product.Discount) / 10000 * 10000).Value.ToString("#,##0")) VNĐ</span></td>
                                                     <td class="quantity">
                                                         <div class="cart-plus-minus">
                                                             <input data-mahh="@item.product.ProductId" data-dongia="@item.product.Price" class="cartItem cart-plus-minus-box" value="@item.amount" min="1" type="number">
                                                         </div>
                                                     </td>
-                                                    <td class="product-subtotal"><span class="amount">@((item.product.Price / 100 * (100 - item.product.Discount) * item.amount).Value.ToString("#,##0")) VNĐ</span></td>
+                                                <td class="product-subtotal"><span class="amount">@((item.product.Price / 100 * (100 - item.product.Discount) / 10000 * 10000 * item.amount).Value.ToString("#,##0")) VNĐ</span></td>
                                                 </tr>
                                             }
                                         }
@@ -72,7 +72,7 @@
                                     <div class="cart-page-total">
                                         <h2>Tổng đơn hàng</h2>
                                         <ul>
-                                            <li>Thành tiền <span>@Model.Sum(x => x.product.Price / 100 * ( 100 - x.product.Discount) * x.amount).Value.ToString("#,##0") VNĐ</span></li>
+                                            <li>Thành tiền <span>@Model.Sum(x => x.product.Price / 100 * ( 100 - x.product.Discount) / 10000 * 10000 * x.amount).Value.ToString("#,##0") VNĐ</span></li>
                                         </ul>
                                         @if (User.Identity.IsAuthenticated)
                                         {

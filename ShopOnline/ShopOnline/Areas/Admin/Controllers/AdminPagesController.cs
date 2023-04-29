@@ -81,6 +81,7 @@ namespace ShopOnline.Areas.Admin.Controllers
                 }
                 if (string.IsNullOrEmpty(page.Thumb)) page.Thumb = "default.jpg";
                 page.Alias = Utilities.SEOUrl(page.PageName);
+                page.CreatedDate = DateTime.Now;
                 _context.Add(page);
                 await _context.SaveChangesAsync();
                 _notyfService.Success("Thêm mới thành công");
