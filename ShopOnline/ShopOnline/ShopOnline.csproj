@@ -33,7 +33,7 @@
 
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
-    <None Include="wwwroot\assets\css\vendor\bootstrap-datepicker\bootstrap-datepicker.min.js" />
+	<None Include="wwwroot\assets\css\vendor\bootstrap-datepicker\bootstrap-datepicker.min.js" />
   </ItemGroup>
 
 </Project>
