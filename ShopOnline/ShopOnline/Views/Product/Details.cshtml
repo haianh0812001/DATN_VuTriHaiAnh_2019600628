@@ -36,18 +36,18 @@
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a href="~/assets/images/product/large-size/2-2-555x645.jpg" class="single-img gallery-popup">
-                                        <img width="300px" height="270px" src="~/assets/images/product/large-size/2-2-555x645.jpg" alt="Product Image">
+                                    <a href="~/images/products/@Model.Thumb" class="single-img gallery-popup">
+                                        <img width="450px" height="400px" src="~/images/products/@Model.Thumb" alt="Product Image">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a href="~/assets/images/product/large-size/2-3-555x645.jpg" class="single-img gallery-popup">
-                                        <img width="300px" height="270px" src="~/assets/images/product/large-size/2-3-555x645.jpg" alt="Product Image">
+                                    <a href="~/images/products/@Model.Thumb" class="single-img gallery-popup">
+                                        <img width="450px" height="400px" src="~/images/products/@Model.Thumb" alt="Product Image">
                                     </a>
                                 </div>
                                 <div class="swiper-slide">
-                                    <a href="~/assets/images/product/large-size/2-4-555x645.jpg" class="single-img gallery-popup">
-                                        <img width="300px" height="270px" src="~/assets/images/product/large-size/2-4-555x645.jpg" alt="Product Image">
+                                    <a href ="~/images/products/@Model.Thumb" class="single-img gallery-popup">
+                                        <img width="450px" height="400px" src="~/images/products/@Model.Thumb" alt="Product Image">
                                     </a>
                                 </div>
                             </div>
@@ -70,8 +70,17 @@
                                     else
                                     {
                                         <span class="new-price text-danger">@Model.Price.Value.ToString("#,##0") VNĐ</span>
+                                    }                                    
+                                </div>
+                                <div class="price-box pb-1">
+                                    @if(Model.UnitsInStock > 0)
+                                    {
+                                        <span class="new-price text-primary">Còn hàng</span>
                                     }
-                                    
+                                    else
+                                    {
+                                        <span class="new-price text-danger">Hết hàng</span>
+                                    }                                    
                                 </div>
                                 <p class="short-desc mb-6">
                                     @Model.ShortDesc
@@ -103,16 +112,16 @@
                             <div class="swiper-container single-product-thumbs">
                                 <div class="swiper-wrapper">
                                     <a href="javascript:void(0)" class="swiper-slide">
-                                        <img width="220px" height="140px" src="~/assets/images/product/large-size/2-1-555x645.jpg" alt="Product Thumnail">
+                                        <img width="240px" height="100px" src="~/images/products/@Model.Thumb" alt="Product Thumnail">
                                     </a>
                                     <a href="javascript:void(0)" class="swiper-slide">
-                                        <img width="220px" height="140px" src="~/assets/images/product/large-size/2-2-555x645.jpg" alt="Product Thumnail">
+                                        <img width="240px" height="100px" src="~/images/products/@Model.Thumb" alt="Product Thumnail">
                                     </a>
                                     <a href="javascript:void(0)" class="swiper-slide">
-                                        <img width="220px" height="140px" src="~/assets/images/product/large-size/2-3-555x645.jpg" alt="Product Thumnail">
+                                        <img width="240px" height="100px" src="~/images/products/@Model.Thumb" alt="Product Thumnail">
                                     </a>
                                     <a href="javascript:void(0)" class="swiper-slide">
-                                        <img width="220px" height="140px" src="~/assets/images/product/large-size/2-4-555x645.jpg" alt="Product Thumnail">
+                                        <img width="240px" height="100px" src="~/images/products/@Model.Thumb" alt="Product Thumnail">
                                     </a>
                                 </div>
                             </div>
@@ -241,6 +250,7 @@
                                 window.location = response.url;
                             }
                             else {
+                                alert("Thêm thành công");
                                 loadHeaderCart(); //Add Product success
                                 location.reload();
                             }

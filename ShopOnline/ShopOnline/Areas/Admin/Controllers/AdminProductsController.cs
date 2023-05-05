@@ -139,7 +139,7 @@ namespace ShopOnline.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+
             }
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
             return View(product);

@@ -46,14 +46,12 @@
                             <img src="~/assets/images/logo/Logo.png" alt="Shop" width="170px" height="70px">
                         </a>
                         <div class="header-search-area d-none d-lg-block">
-                            <form class="header-searchbox">
-                                <input id="keyword" name="keyword" class="input-field" type="text" placeholder="Tìm kiếm sản phẩm">
+                            <form asp-controller="Searches" asp-action="FindProduct" class="header-searchbox">
+                                <input name="keyword" class="input-field" type="text" placeholder="Tìm kiếm sản phẩm">
                                 <button class="btn btn-outline-whisper btn-primary-hover" type="submit"><i class="pe-7s-search"></i></button>
                             </form>
                             <div id="records_table" class="results-box">
                             </div>
-
-
                             @*<div>
                             <i class="prefix-icon anticon anticon-search opacity-04"></i>
                             <input id="keyword" name="keyword" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm">
@@ -121,22 +119,22 @@
                             <nav class="main-nav">
                                 <ul>
                                     <li class="drop-holder">
-                                        <a href="/">Trang chủ</a>
+                                        <a href="/">TRANG CHỦ</a>
                                     </li>
                                     <li>
-                                        <a href="/gioi-thieu.html">Về chúng tôi</a>
+                                        <a href="/shop.html">CỬA HÀNG</a>
                                     </li>
                                     <li>
-                                        <a href="/shop.html">Shop</a>
+                                        <a href="/Blogs.html">TIN TỨC</a>
                                     </li>
                                     <li>
-                                        <a href="/page/huong-dan-mua-hang">Hướng dẫn mua hàng</a>
+                                        <a href="/page/huong-dan-mua-hang">HƯỚNG DẪN MUA HÀNG</a>
                                     </li>
                                     <li>
-                                        <a href="/Blogs.html">Blog</a>
+                                        <a href="/gioi-thieu.html">VỀ CHÚNG TÔI</a>
                                     </li>
                                     <li>
-                                        <a href="/lien-he.html">Liên hệ</a>
+                                        <a href="/lien-he.html">LIÊN HỆ</a>
                                 </ul>
                             </nav>
                         </div>
@@ -235,26 +233,3 @@
     <div class="global-overlay"></div>
 </header>
 
-@section Scripts{
-    <script>
-    $(document).ready(function () {
-            $("#keyword").keyup(function () {
-            var strkeyword = $('#keyword').val();
-            $.ajax({
-                url: '/Search/FindProduct/',
-                datatype: "json",
-                type: "POST",
-                data: { keyword: strkeyword },
-                async: true,
-                success: function (results) {
-                    $("#records_table").html("");
-                    $("#records_table").html(results);
-                },
-                error: function (xhr) {
-                    alert('error');
-                }
-            });
-        });
-        });
-    </script>
-}

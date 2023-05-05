@@ -1,14 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopOnline.Models;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace ShopOnline.Controllers
 {
-    public class SearchController : Controller
+    public class SearchesController : Controller
     {
         private readonly dbMarketsContext _context;
 
-        public SearchController(dbMarketsContext context)
+        public SearchesController(dbMarketsContext context)
         {
             _context = context;
         }
@@ -22,8 +23,10 @@ namespace ShopOnline.Controllers
                 return PartialView("ListProductsSearchPartial", null);
             }
             ls = _context.Products.AsNoTracking()
+                                  .Include(a => a.Cat)
                                   .Where(x => x.ProductName.Contains(keyword))
                                   .OrderByDescending(x => x.ProductName)
+                                  .Take(10)
                                   .ToList();
             if (ls == null)
             {
@@ -34,6 +37,5 @@ namespace ShopOnline.Controllers
                 return PartialView("ListProductsSearchPartial", ls);
             }
         }
-
     }
 }

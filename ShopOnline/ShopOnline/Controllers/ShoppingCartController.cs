@@ -1,8 +1,13 @@
 ﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using ShopOnline.Extension;
+using ShopOnline.Helpper;
 using ShopOnline.Models;
 using ShopOnline.ModelViews;
+using System.Security.Claims;
 
 namespace ShopOnline.Controllers
 {
@@ -33,35 +38,44 @@ namespace ShopOnline.Controllers
         public IActionResult AddToCart(int productID, int? amount)
         {
             List<CartItem> cart = GioHang;
-
             try
             {
-                //Them san pham vao gio hang
-                CartItem item = cart.SingleOrDefault(p => p.product.ProductId == productID);
-                if (item != null) // da co => cap nhat so luong
+                var product = _context.Products.SingleOrDefault(p => p.ProductId == productID);
+                if (product.UnitsInStock > 0 && product.UnitsInStock > amount)
                 {
-                    item.amount = item.amount + amount.Value;
-                    //luu lai session
+                    //Them san pham vao gio hang
+                    CartItem item = cart.SingleOrDefault(p => p.product.ProductId == productID);
+                    if (item != null) // da co => cap nhat so luong
+                    {
+                        item.amount = item.amount + amount.Value;
+                        //luu lai session
+                        HttpContext.Session.Set<List<CartItem>>("GioHang", cart);
+                    }
+                    else
+                    {
+                        Product hh = _context.Products.SingleOrDefault(p => p.ProductId == productID);
+                        item = new CartItem
+                        {
+                            amount = amount.HasValue ? amount.Value : 1,
+                            product = hh
+                        };
+                        cart.Add(item);//Them vao gio
+                    }
+
+                    //Luu lai Session
                     HttpContext.Session.Set<List<CartItem>>("GioHang", cart);
+                    _notyfService.Success("Thêm sản phẩm thành công");
+                    return Json(new { success = true });
                 }
                 else
                 {
-                    Product hh = _context.Products.SingleOrDefault(p => p.ProductId == productID);
-                    item = new CartItem
-                    {
-                        amount = amount.HasValue ? amount.Value : 1,
-                        product = hh
-                    };
-                    cart.Add(item);//Them vao gio
-                }
-
-                //Luu lai Session
-                HttpContext.Session.Set<List<CartItem>>("GioHang", cart);
-                _notyfService.Success("Thêm sản phẩm thành công");
-                return Json(new { success = true });
+                    _notyfService.Error("Thêm không thành công!");
+                    return Json(new { success = false });
+                }    
             }
             catch
             {
+                _notyfService.Error("Thêm không thành công!");
                 return Json(new { success = false });
             }
         }

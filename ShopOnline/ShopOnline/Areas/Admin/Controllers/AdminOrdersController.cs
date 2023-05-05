@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using AspNetCoreHero.ToastNotification.Abstractions;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PagedList.Core;
 using ShopOnline.Models;
+using static NuGet.Packaging.PackagingConstants;
 
 namespace ShopOnline.Areas.Admin.Controllers
 {
@@ -26,22 +28,47 @@ namespace ShopOnline.Areas.Admin.Controllers
 
         // GET: Admin/AdminOrders
 
-        public IActionResult Index(int? page)
+        public IActionResult Index(int? page, int TransactStatusId = 0)
         {
             var pageNumber = page == null || page <= 0 ? 1 : page.Value;
             var pageSize = 10;
-            var Orders = _context.Orders.Include(o => o.Customer).Include(o => o.TransactStatus)
+            var orders = _context.Orders.Include(o => o.Customer).Include(o => o.TransactStatus)
+                .AsNoTracking();
+            List<Order> lsOrders = new List<Order>();
+            if (TransactStatusId != 0)
+            {
+                lsOrders = _context.Orders
                 .AsNoTracking()
-                .OrderBy(x => x.OrderDate);
-            PagedList<Order> models = new PagedList<Order>(Orders, pageNumber, pageSize);
+                .Where(x => x.TransactStatusId == TransactStatusId)
+                .Include(x => x.TransactStatus)
+                .Include(x => x.Customer)
+                .OrderByDescending(x => x.OrderDate).ToList();
+            }
+            else
+            {
+                lsOrders = _context.Orders
+                .AsNoTracking()
+                .Include(x => x.TransactStatus)
+                .Include(x => x.Customer)
+                .OrderByDescending(x => x.OrderDate).ToList();
+            }
 
+            orders = orders.OrderByDescending(x => x.OrderDate);
+            PagedList<Order> models = new PagedList<Order>(lsOrders.AsQueryable(), pageNumber, pageSize);
+            ViewData["TransactStatus"] = new SelectList(_context.TransactStatuses, "TransactStatusId", "Status");
+            //ViewBag.TransactStatus = _context.TransactStatuses.ToList();
             ViewBag.CurrentPage = pageNumber;
-
-
-
             return View(models);
         }
-
+        public IActionResult Filtter(int TransactStatusId = 0)
+        {
+            var url = $"/Admin/AdminOrders?TransactStatusId={TransactStatusId}";
+            if (TransactStatusId == 0)
+            {
+                url = $"/Admin/AdminOrders";
+            }
+            return Json(new { status = "success", redirectUrl = url });
+        }
         // GET: Admin/AdminOrders/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -111,6 +138,15 @@ namespace ShopOnline.Areas.Admin.Controllers
                         }
                         if (donhang.TransactStatusId == 5) donhang.Deleted = true;
                         if (donhang.TransactStatusId == 3) donhang.ShipDate = DateTime.Now;
+                        if (donhang.TransactStatusId == 4)
+                        {
+                            var orderDetails = await _context.OrderDetails.Where(x => x.OrderId == donhang.OrderId).ToListAsync();
+                            foreach (var item in orderDetails)
+                            {
+                                var product = await _context.Products.FindAsync(item.ProductId);
+                                product.UnitsInStock -= item.Amount;
+                            }
+                        }
                     }
                     _context.Update(donhang);
                     await _context.SaveChangesAsync();

@@ -28,8 +28,24 @@
                 else
                 {
                     <div class="d-flex align-items-center">
-                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div class="badge badge-danger badge-dot m-r-10"></div>
                         <div>Hết hàng</div>
+                    </div>
+                }
+            </td>
+            <td>
+                @if (item.Discount.Value > 0)
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-success badge-dot m-r-10"></div>
+                        <div>Có</div>
+                    </div>
+                }
+                else
+                {
+                    <div class="d-flex align-items-center">
+                        <div class="badge badge-danger badge-dot m-r-10"></div>
+                        <div>Không</div>
                     </div>
                 }
             </td>
@@ -41,4 +57,4 @@
             </td>
         </tr>
     }
-}
+}                    

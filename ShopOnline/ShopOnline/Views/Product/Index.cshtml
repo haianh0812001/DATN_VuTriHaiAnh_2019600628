@@ -31,14 +31,6 @@
             <div class="row">
                 <div class="col-lg-3 order-lg-1 order-2 pt-10 pt-lg-0">
                     <div class="sidebar-area">
-                        <div class="widgets-searchbox mb-9">
-                            <form id="widgets-searchbox" action="#">
-                                <input class="input-field" type="text" placeholder="Search">
-                                <button class="widgets-searchbox-btn" type="submit">
-                                    <i class="pe-7s-search"></i>
-                                </button>
-                            </form>
-                        </div>
                         <div class="widgets-area mb-9">
                             <h2 class="widgets-title mb-5">DANH MỤC SẢN PHẨM</h2>
                             <div class="widgets-item">
@@ -60,6 +52,7 @@
                         </div>
                     </div>
                 </div>
+            
                 <div class="col-lg-9 order-lg-2 order-1">
                     <div class="product-topbar">
                         <ul>
@@ -82,16 +75,14 @@
                             </li>
                             <li class="short">
                                 <select class="nice-select wide rounded-0">
-                                    <option value="1">Sort by Default</option>
-                                    <option value="2">Sort by Popularity</option>
-                                    <option value="3">Sort by Rated</option>
-                                    <option value="4">Sort by Latest</option>
-                                    <option value="5">Sort by High Price</option>
-                                    <option value="6">Sort by Low Price</option>
+                                    <option value="1">Sắp xếp theo tên</option>
+                                    <option value="2">Sắp xếp theo ngày</option>
+                                    <option value="3">Sắp xếp theo giá</option>
                                 </select>
                             </li>
                         </ul>
                     </div>
+                <div id="records_list">
                     <div class="tab-content text-charcoal pt-8">
                         <div class="tab-pane fade" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
                             <div class="product-grid-view row">
@@ -179,9 +170,9 @@
                                         </div>
                                     }
                                 }
-
                             </div>
                         </div>
+                    </div>
                     </div>
                     <div class="pagination-area pt-10">
                         <ul class="pagination justify-content-center">
@@ -194,4 +185,3 @@
             </div>
         </div>
 </main>
-<!-- Main Content Area End Here -->

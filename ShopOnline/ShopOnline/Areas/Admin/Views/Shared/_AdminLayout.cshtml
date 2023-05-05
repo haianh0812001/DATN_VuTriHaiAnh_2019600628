@@ -7,7 +7,6 @@
     <title>@ViewData["Title"]</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="~/Adminassets/images/logo/favicon.png">
 
     <!-- page css -->
     <link href="~/Adminassets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet">
@@ -23,18 +22,16 @@
         <div class="layout">
             <!-- Header START -->
             <div class="header">
-                <div class="logo logo-dark">
+                <div class="logo logo-dark" style="display: flex; align-items: center; justify-content: center;">
                     <a asp-area="Admin" asp-controller="Home" asp-action="Index">
-                        @*<img src="~/Adminassets/images/logo/logo.png" alt="Logo">
-                        <img class="logo-fold" src="~/Adminassets/images/logo/logo-fold.png" alt="Logo">*@
-                        ADMIN
+                        <h3>ADMIN</h3>
                     </a>
                 </div>
-                <div class="logo logo-white">
-                    <a href="index.html">
-                        @*<img src="~/Adminassets/images/logo/logo-white.png" alt="Logo">
-                        <img class="logo-fold" src="~/Adminassets/images/logo/logo-fold-white.png" alt="Logo">*@
-                        ADMIN
+                <div class="logo logo-white" style="vertical-align: middle;">
+                    <a asp-area="Admin" asp-controller="Home" asp-action="Index">
+                        <div class="pointer">
+                            ADMIN
+                        </div>
                     </a>
                 </div>
                 <div class="nav-wrap">
@@ -55,29 +52,19 @@
                         <li class="dropdown dropdown-animated scale-left">
                             <div class="pointer" data-toggle="dropdown">
                                 <div class="avatar avatar-image  m-h-10 m-r-15">
-                                    <img src="~/Adminassets/images/avatars/thumb-3.jpg" alt="">
+                                    <div class="avatar avatar-icon">
+                                        <i class="anticon anticon-user"></i>
+                                    </div>
                                 </div>
                             </div>
                             <div class="p-b-15 p-t-20 dropdown-menu pop-profile">
                                 @if (User.Identity.IsAuthenticated)
                                 {
-                                    <a href="/dang-xuat.html" class="dropdown-item d-block p-h-15 p-v-10">
+                                    <a href="/logout.html" class="dropdown-item d-block p-h-15 p-v-10">
                                         <div class="d-flex align-items-center justify-content-between">
                                             <div>
                                                 <i class="anticon opacity-04 font-size-16 anticon-logout"></i>
                                                 <span class="m-l-10">Logout</span>
-                                            </div>
-                                            <i class="anticon font-size-10 anticon-right"></i>
-                                        </div>
-                                    </a>
-                                }
-                                else
-                                {
-                                    <a asp-area="Admin" asp-controller="Account" asp-action="AdminLogout" class="dropdown-item d-block p-h-15 p-v-10">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <div>
-                                                <i class="anticon opacity-04 font-size-16 anticon-lock"></i>
-                                                <span class="m-l-10">Login</span>
                                             </div>
                                             <i class="anticon font-size-10 anticon-right"></i>
                                         </div>

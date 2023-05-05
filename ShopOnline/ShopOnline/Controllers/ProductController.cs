@@ -24,7 +24,7 @@ namespace ShopOnline.Controllers
                     .AsNoTracking()
                     .OrderBy(x => x.DateCreated);
                 var sum = lsTinDangs.Count();
-                PagedList <Product> models = new PagedList<Product>(lsTinDangs, pageNumber, pageSize);
+                PagedList<Product> models = new PagedList<Product>(lsTinDangs, pageNumber, pageSize);
                 ViewBag.sum = sum;
                 ViewBag.CurrentCat = danhmuc;
                 ViewBag.CurrentPage = pageNumber;
@@ -46,7 +46,7 @@ namespace ShopOnline.Controllers
                     .AsNoTracking()
                     .Where(x => x.CatId == danhmuc.CatId)
                     .OrderByDescending(x => x.DateCreated);
-                var danhmuc2 = _context.Categories.ToList(); ;
+                var danhmuc2 = _context.Categories.ToList();
                 PagedList<Product> models = new PagedList<Product>(lsTinDangs, page, pageSize);
                 var sum = lsTinDangs.Count();
                 ViewBag.sum = sum;

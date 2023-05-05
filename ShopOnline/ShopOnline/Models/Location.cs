@@ -5,11 +5,6 @@ namespace ShopOnline.Models
 {
     public partial class Location
     {
-        public Location()
-        {
-            Orders = new HashSet<Order>();
-        }
-
         public int LocationId { get; set; }
         public string? Name { get; set; }
         public int? Parent { get; set; }
@@ -17,7 +12,5 @@ namespace ShopOnline.Models
         public string? Slug { get; set; }
         public string? NameWithType { get; set; }
         public string? Type { get; set; }
-
-        public virtual ICollection<Order> Orders { get; set; }
     }
 }

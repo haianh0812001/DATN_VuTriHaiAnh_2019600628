@@ -180,7 +180,7 @@ namespace ShopOnline.Controllers
                     var admin = _context.Accounts.AsNoTracking().SingleOrDefault(x => x.Email.Trim() == account.UserName);
                     if (admin == null && khachhang == null)
                     {
-                        _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                        _notyfService.Error("Thông tin đăng nhập chưa chính xác!");
                         return View(account);
                     }
                     if (khachhang == null)
@@ -189,7 +189,7 @@ namespace ShopOnline.Controllers
                         
                         if (admin.Password != pass)
                         {
-                            _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                            _notyfService.Error("Thông tin đăng nhập chưa chính xác!");
                             return View(account);
                         }
                     //kiem tra xem account co bi disable hay khong
@@ -217,7 +217,7 @@ namespace ShopOnline.Controllers
                         string pass = (account.Password + khachhang.Salt.Trim()).ToMD5();
                         if (khachhang.Password != pass)
                         {
-                            _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                            _notyfService.Error("Thông tin đăng nhập chưa chính xác!");
                             return View(account);
                         }
                     //kiem tra xem account co bi disable hay khong
@@ -245,7 +245,7 @@ namespace ShopOnline.Controllers
             }
             catch
             {
-                _notyfService.Success("Thông tin đăng nhập chưa chính xác!");
+                _notyfService.Error("Thông tin đăng nhập chưa chính xác!");
                 return View(account);
             }
             return View(account);
@@ -286,10 +286,10 @@ namespace ShopOnline.Controllers
             }
             catch
             {
-                _notyfService.Success("Thay đổi mật khẩu không thành công");
+                _notyfService.Error("Thay đổi mật khẩu không thành công");
                 return RedirectToAction("Dashboard", "Accounts");
             }
-            _notyfService.Success("Thay đổi mật khẩu không thành công");
+            _notyfService.Error("Thay đổi mật khẩu không thành công");
             return RedirectToAction("Dashboard", "Accounts");
         }
         [HttpPost]
@@ -322,10 +322,10 @@ namespace ShopOnline.Controllers
             }
             catch
             {
-                _notyfService.Success("Thông tin thay đổi không ");
+                _notyfService.Error("Thông tin thay đổi không thành công");
                 return RedirectToAction("Dashboard", "Accounts");
             }
-            _notyfService.Success("Thông tin thay đổi không thành ");
+            _notyfService.Error("Thông tin thay đổi không thành công");
             return RedirectToAction("Dashboard", "Accounts");
         }
 

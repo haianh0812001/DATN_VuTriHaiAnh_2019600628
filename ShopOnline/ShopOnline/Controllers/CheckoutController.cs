@@ -81,7 +81,7 @@ namespace ShopOnline.Controllers
                 donhang.TransactStatusId = 1;//Don hang moi
                 donhang.Deleted = false;
                 donhang.Paid = false;
-                donhang.Note = Utilities.StripHTML(model.Note);
+                donhang.Note = model.Note;
                 donhang.TotalMoney = Convert.ToInt32(cart.Sum(x => x.product.Price / 100 * (100 - x.product.Discount) /10000 * 10000 * x.amount));
                 _context.Add(donhang);
                 _context.SaveChanges();
@@ -95,6 +95,7 @@ namespace ShopOnline.Controllers
                     orderDetail.Amount = item.amount;
                     orderDetail.TotalMoney = donhang.TotalMoney;
                     orderDetail.Price = item.product.Price / 100 * (100 - item.product.Discount) / 10000 * 10000;
+                    orderDetail.Discount = item.product.Discount;
                     orderDetail.CreateDate = DateTime.Now;
                     _context.Add(orderDetail);
                 }

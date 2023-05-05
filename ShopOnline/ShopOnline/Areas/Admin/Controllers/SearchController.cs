@@ -26,22 +26,20 @@ namespace ShopOnline.Areas.Admin.Controllerst
             List<Product> ls = new List<Product>();
             if (string.IsNullOrEmpty(keyword) || keyword.Length < 1)
             {
-                return PartialView("ListProductsSearchPartial", null);
-            }
-            ls = _context.Products.AsNoTracking()
-                                  .Include(a => a.Cat)
-                                  .Where(x => x.ProductName.Contains(keyword))
-                                  .OrderByDescending(x => x.ProductName)
-                                  .Take(10)
-                                  .ToList();
-            if (ls == null)
-            {
-                return PartialView("ListProductsSearchPartial", null);
+                ls = _context.Products.AsNoTracking()
+                    .Include(a => a.Cat)
+                    .OrderByDescending(x => x.ProductName)
+                    .ToList();
             }
             else
             {
-                return PartialView("ListProductsSearchPartial", ls);
+                ls = _context.Products.AsNoTracking()
+                    .Include(a => a.Cat)
+                    .Where(x => x.ProductName.Contains(keyword))
+                    .OrderByDescending(x => x.ProductName)
+                    .ToList();
             }
+            return PartialView("ListProductsSearchPartial", ls);
         }
     }
 }

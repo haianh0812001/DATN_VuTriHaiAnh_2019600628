@@ -19,6 +19,16 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-affix m-v-10">
+                        <select class="custom-select" id="txtTransactStatusId" name="txtTransactStatusId" style="min-width: 200px;" asp-items="ViewBag.TransactStatus">
+                            <option selected>Chọn danh mục</option>
+                            <option value="0">Chọn tất cả</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <table class="table table-hover e-commerce-table">
                 <thead>
                     <tr>
@@ -40,13 +50,11 @@
                                 <td>@item.OrderId</td>
                                 <td>@item.Customer.FullName</td>
                                 <td>@item.OrderDate</td>
-                                @*<td>@item.OrderDetails.Sum(x =>x.TotalMoney).Value.ToString("#,##0") VNĐ</td>*@
                                 <td>@item.TotalMoney.ToString("#,##0") VNĐ</td>
                                 <td>@item.TransactStatus.Status</td>
                                 <td>
                                     <a class="btn btn-primary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminOrders" asp-action="Details" asp-route-id="@item.OrderId">Chi tiết</a>
                                     <a data-target="#modal-header" data-toggle="modal" class="btn btn-secondary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminOrders" asp-action="ChangeStatus" asp-route-id="@item.OrderId">Cập nhật trạng thái</a>
-                                    <a class="btn btn-secondary btn-tone m-r-5" asp-area="Admin" asp-controller="AdminOrders" asp-action="Edit" asp-route-id="@item.OrderId">Chỉnh sửa</a>
                                     <a class="btn btn-success btn-tone m-r-5" asp-area="Admin" asp-controller="AdminOrders" asp-action="Delete" asp-route-id="@item.OrderId">Xóa</a>
                                 </td>
                             </tr>
@@ -71,12 +79,47 @@
 </div>
 @section Scripts {
     <script>
+        $(function () {
+            $('#filter-status').on('change', function () {
+                var selectedStatus = $(this).val();
+                url += '?status=' + selectedStatus + '&page=' + '@ViewBag.CurrentPage';
+                if (selectedStatus !== '') {
+                    url += '?status=' + selectedStatus;
+                }
+                window.location.href = url;
+            });
+        });
         $('#modal-header').on('show.bs.modal', function (event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var url = button.attr("href");
             var modal = $(this);
             // note that this will replace the content of modal-content ever time the modal is opened
             modal.find('.modal-content').load(url);
+        });
+
+        jQuery("#txtTransactStatusId").change(function () {
+            var TransactStatusId = jQuery(this).children(":selected").attr("value");
+            TransactStatusId = parseFloat(TransactStatusId);
+            $('#txtTransactStatusId option')
+                .removeAttr('selected');
+            $("#txtTransactStatusId > [value=" + TransactStatusId + "]").attr("selected", "true");
+            $.ajax({
+                url: '/Admin/AdminOrders/Filtter',
+                datatype: "json",
+                type: "GET",
+                data: {
+                    TransactStatusId: TransactStatusId
+                },
+                async: true,
+                success: function (results) {
+                    if (results.status == "success") {
+                        window.location.href = results.redirectUrl;
+                    }
+                },
+                error: function (xhr) {
+                    alert('error');
+                }
+            });
         });
     </script>
 

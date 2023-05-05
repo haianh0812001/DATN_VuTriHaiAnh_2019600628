@@ -1,0 +1,100 @@
+﻿@model List<Product>
+
+@{
+    ViewData["TiTle"] = "Tìm kiếm sản phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Begin Main Content Area -->
+<main class="main-content">  
+    <div class="shop-area section-space-y-axis-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">   
+                    <div class="product-topbar">
+                        <ul>                            
+                            <li class="page-count">
+                                Tìm kiếm sản phẩm
+                            </li>
+                            <li class="short">
+                                <select class="nice-select wide rounded-0">
+                                    <option value="1">Sắp xếp theo tên</option>
+                                    <option value="2">Sắp xếp theo ngày</option>
+                                    <option value="3">Sắp xếp theo giá</option>
+                                </select>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content text-charcoal pt-8">
+                        <div class="tab-pane fade show active" id="grid-view" role="tabpanel" aria-labelledby="grid-view-tab">
+                            <div class="product-grid-view row">
+                                @if (Model != null && Model.Count > 0)
+                                {
+                                    foreach (var item in Model)
+                                    {
+                                        string url = $"/{item.Alias}-{item.ProductId}.html";
+                                        <div class="col-lg-3 col-sm-6">
+                                            <div class="product-item">
+                                                <div class="product-img img-zoom-effect">
+                                                    <a href="@url">
+                                                        <img class="img-full" src="~/images/products/@item.Thumb" alt="@item.Title">
+                                                    </a>
+                                                    <div class="product-add-action">
+                                                        <ul>
+                                                            <li>
+                                                                <a href="@url">
+                                                                    <i class="pe-7s-cart"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="compare.html">
+                                                                    <i class="pe-7s-shuffle"></i>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a href="wishlist.html">
+                                                                    <i class="pe-7s-like"></i>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="product-content">
+                                                    <a class="product-name" href="@url">@item.ProductName</a>
+                                                    <div class="price-box pb-1">
+                                                        <span class="new-price">@item.Price.Value.ToString("#,##0") VNĐ</span>
+                                                    </div>
+                                                    <div class="rating-box">
+                                                        <ul>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                            <li><i class="pe-7s-star"></i></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="product-topbar">
+                                        <ul>
+                                            <li class="page-count">
+                                                Không tìm thấy sản phẩm
+                                            </li>
+                                        </ul>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<!-- Main Content Area End Here -->

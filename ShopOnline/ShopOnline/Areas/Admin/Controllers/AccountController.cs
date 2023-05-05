@@ -20,12 +20,15 @@ namespace ShopOnline.Areas.Admin.Controllers
             _context = context;
             _notyfService = notyfService;
         }
+        public IActionResult TBQuyen()
+        {
+            return View();
+        }
         // GET: /<controller>/
         public IActionResult Index()
         {
             return View();
         }
-
 
         [AllowAnonymous]
         [Route("login.html", Name = "Login")]

@@ -17,8 +17,6 @@ namespace ShopOnline.Models
         }
 
         public virtual DbSet<Account> Accounts { get; set; } = null!;
-        public virtual DbSet<Attribute> Attributes { get; set; } = null!;
-        public virtual DbSet<AttributesPrice> AttributesPrices { get; set; } = null!;
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
@@ -37,6 +35,7 @@ namespace ShopOnline.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-Q2SPJOU;Database=dbMarkets;Integrated Security=true;");
             }
         }
@@ -71,32 +70,6 @@ namespace ShopOnline.Models
                     .WithMany(p => p.Accounts)
                     .HasForeignKey(d => d.RoleId)
                     .HasConstraintName("FK_Accounts_Roles");
-            });
-
-            modelBuilder.Entity<Attribute>(entity =>
-            {
-                entity.Property(e => e.AttributeId).HasColumnName("AttributeID");
-
-                entity.Property(e => e.Name).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<AttributesPrice>(entity =>
-            {
-                entity.Property(e => e.AttributesPriceId).HasColumnName("AttributesPriceID");
-
-                entity.Property(e => e.AttributeId).HasColumnName("AttributeID");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.HasOne(d => d.Attribute)
-                    .WithMany(p => p.AttributesPrices)
-                    .HasForeignKey(d => d.AttributeId)
-                    .HasConstraintName("FK_AttributesPrices_Attributes");
-
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.AttributesPrices)
-                    .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_AttributesPrices_Products");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -192,11 +165,6 @@ namespace ShopOnline.Models
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.CustomerId)
                     .HasConstraintName("FK_Orders_Customers");
-
-                entity.HasOne(d => d.Location)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.LocationId)
-                    .HasConstraintName("FK_Orders_Locations");
 
                 entity.HasOne(d => d.TransactStatus)
                     .WithMany(p => p.Orders)

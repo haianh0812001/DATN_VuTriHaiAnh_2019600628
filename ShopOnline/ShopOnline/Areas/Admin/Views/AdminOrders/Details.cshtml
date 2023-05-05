@@ -17,13 +17,6 @@
         </nav>
     </div>
 </div>
-<div class="page-header no-gutters has-tab">
-    <div class="d-md-flex m-b-15 align-items-center justify-content-between">
-        <div class="m-b-15">
-            <a class="btn btn-primary" asp-area="Admin" asp-controller="AdminOrders" asp-action="Edit" asp-route-id="@Model.OrderId">Sửa đổi</a>
-        </div>
-    </div>
-</div>
 
 <div class="container">
     <div class="card">
@@ -97,6 +90,10 @@
                         <div class="col-sm-12">
                             <div class="float-right text-right">
                                 <h3><span class="font-weight-semibold text-dark">Tổng tiền :</span>@Model.TotalMoney.ToString("#,##0") VNĐ</h3>
+                                @if(Model.Paid == true)
+                                {
+                                    <h3 class="p-l-10 m-t-10" style="text-align:right; color: red;">ĐÃ THANH TOÁN</h3>
+                                }
                             </div>
                         </div>
                     </div>

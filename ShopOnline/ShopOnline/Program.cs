@@ -1,10 +1,11 @@
-using AspNetCoreHero.ToastNotification;
+﻿using AspNetCoreHero.ToastNotification;
 using ShopOnline.Models;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
+using Microsoft.AspNetCore.Identity;
 
 internal class Program
 {
@@ -27,11 +28,12 @@ internal class Program
                 //p.ExpireTimeSpan = TimeSpan.FromDays(1);
                 p.LoginPath = "/dang-nhap.html";
                 p.LogoutPath = "/dang-xuat/html";
-                p.AccessDeniedPath = "/";
+                p.AccessDeniedPath = "/Admin/Account/TBQuyen";
             });
         //builder.Services.AddAuthorization(options =>
         //{
-        //    options.AddPolicy("Admin", policy => policy.RequireClaim("Admin"));
+        //    options.AddPolicy("AdminRole", policy => policy.RequireRole("Admin"));
+        //    options.AddPolicy("EmployeeRole", policy => policy.RequireRole("Employee"));
         //});
         builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
         builder.Services.AddNotyf(config =>
@@ -64,11 +66,11 @@ internal class Program
               name: "areas",
               pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
             );
+            endpoints.MapControllerRoute(
+           name: "default",
+           pattern: "{controller=Home}/{action=Index}/{id?}");
         });
 
-        app.MapControllerRoute(
-            name: "default",
-            pattern: "{controller=Home}/{action=Index}/{id?}");
 
         app.Run();
     }

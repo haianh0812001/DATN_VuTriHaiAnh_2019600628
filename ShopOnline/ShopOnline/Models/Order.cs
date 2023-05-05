@@ -27,7 +27,6 @@ namespace ShopOnline.Models
         public int? Ward { get; set; }
 
         public virtual Customer? Customer { get; set; }
-        public virtual Location? Location { get; set; }
         public virtual TransactStatus TransactStatus { get; set; } = null!;
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
