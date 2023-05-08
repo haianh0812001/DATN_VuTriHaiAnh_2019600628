@@ -20,6 +20,7 @@ namespace ShopOnline.Models
         public virtual DbSet<Category> Categories { get; set; } = null!;
         public virtual DbSet<Customer> Customers { get; set; } = null!;
         public virtual DbSet<Location> Locations { get; set; } = null!;
+        public virtual DbSet<NhaCungCap> NhaCungCaps { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Page> Pages { get; set; } = null!;
@@ -143,6 +144,27 @@ namespace ShopOnline.Models
                 entity.Property(e => e.Type).HasMaxLength(10);
             });
 
+            modelBuilder.Entity<NhaCungCap>(entity =>
+            {
+                entity.HasKey(e => e.Nccid);
+
+                entity.ToTable("NhaCungCap");
+
+                entity.Property(e => e.Nccid).HasColumnName("NCCID");
+
+                entity.Property(e => e.Address).HasMaxLength(255);
+
+                entity.Property(e => e.CreateDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Nccname)
+                    .HasMaxLength(255)
+                    .HasColumnName("NCCName");
+
+                entity.Property(e => e.Phone)
+                    .HasMaxLength(12)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<Order>(entity =>
             {
                 entity.Property(e => e.OrderId).HasColumnName("OrderID");
@@ -229,6 +251,8 @@ namespace ShopOnline.Models
 
                 entity.Property(e => e.MetaKey).HasMaxLength(255);
 
+                entity.Property(e => e.Nccid).HasColumnName("NCCID");
+
                 entity.Property(e => e.ProductName).HasMaxLength(255);
 
                 entity.Property(e => e.ShortDesc).HasMaxLength(255);
@@ -243,6 +267,11 @@ namespace ShopOnline.Models
                     .WithMany(p => p.Products)
                     .HasForeignKey(d => d.CatId)
                     .HasConstraintName("FK_Products_Categories");
+
+                entity.HasOne(d => d.Ncc)
+                    .WithMany(p => p.Products)
+                    .HasForeignKey(d => d.Nccid)
+                    .HasConstraintName("FK_Products_NhaCungCap");
             });
 
             modelBuilder.Entity<QuangCao>(entity =>

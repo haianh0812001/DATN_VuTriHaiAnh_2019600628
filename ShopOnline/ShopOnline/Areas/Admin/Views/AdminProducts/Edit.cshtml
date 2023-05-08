@@ -74,6 +74,13 @@
                             </select>
                         </div>
                         <div class="form-group col-6">
+                            <label class="font-weight-semibold" for="productCategory">Danh mục nhà cung cấp</label>
+                            <select class="custom-select" asp-for="Nccid" style="min-width: 200px;" asp-items="ViewBag.NhaCungCap">
+                                <option value="" disabled selected>Chọn nhà cung cấp</option>
+                            </select>
+                            <span asp-validation-for="Nccid"></span>
+                        </div>
+                        <div class="form-group col-6">
                             <label class="font-weight-semibold" for="productName">Hàng tồn kho</label>
                             <input type="text" class="form-control" asp-for="UnitsInStock">
                         </div>

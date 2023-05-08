@@ -79,6 +79,7 @@ namespace ShopOnline.Areas.Admin.Controllers
             }
 
             var product = await _context.Products
+                .Include(p => p.Ncc)
                 .Include(p => p.Cat)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
@@ -92,6 +93,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         // GET: Admin/AdminProducts/Create
         public IActionResult Create()
         {
+            ViewData["NhaCungCap"] = new SelectList(_context.NhaCungCaps, "Nccid", "Nccname");
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName");
             return View();
         }
@@ -101,7 +103,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ShortDesc,Description,CatId,Price,Discount,Thumb,Video,DateCreated,DateModified,BestSellers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitsInStock")] Product product, Microsoft.AspNetCore.Http.IFormFile fThumb)
+        public async Task<IActionResult> Create([Bind("ProductId,ProductName,ShortDesc,Description,CatId,Price,Discount,Thumb,Video,DateCreated,DateModified,BestSellers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitsInStock,Nccid")] Product product, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
             if (ModelState.IsValid)
             {
@@ -141,6 +143,7 @@ namespace ShopOnline.Areas.Admin.Controllers
                 }
 
             }
+            ViewData["NhaCungCap"] = new SelectList(_context.NhaCungCaps, "Nccid", "Nccname", product.Nccid);
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
             return View(product);
         }
@@ -158,6 +161,7 @@ namespace ShopOnline.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+            ViewData["NhaCungCap"] = new SelectList(_context.NhaCungCaps, "Nccid", "Nccname");
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
             return View(product);
         }
@@ -167,7 +171,7 @@ namespace ShopOnline.Areas.Admin.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CatId,Price,Discount,Thumb,Video,DateCreated,DateModified,BestSellers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitsInStock")] Product product, Microsoft.AspNetCore.Http.IFormFile fThumb)
+        public async Task<IActionResult> Edit(int id, [Bind("ProductId,ProductName,ShortDesc,Description,CatId,Price,Discount,Thumb,Video,DateCreated,DateModified,BestSellers,HomeFlag,Active,Tags,Title,Alias,MetaDesc,MetaKey,UnitsInStock,Nccid")] Product product, Microsoft.AspNetCore.Http.IFormFile fThumb)
         {
             if (id != product.ProductId)
             {
@@ -206,6 +210,7 @@ namespace ShopOnline.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["NhaCungCap"] = new SelectList(_context.NhaCungCaps, "Nccid", "Nccname", product.Nccid);
             ViewData["DanhMuc"] = new SelectList(_context.Categories, "CatId", "CatName", product.CatId);
             return View(product);
         }
@@ -220,6 +225,7 @@ namespace ShopOnline.Areas.Admin.Controllers
 
             var product = await _context.Products
                 .Include(p => p.Cat)
+                .Include(p => p.Ncc)
                 .FirstOrDefaultAsync(m => m.ProductId == id);
             if (product == null)
             {

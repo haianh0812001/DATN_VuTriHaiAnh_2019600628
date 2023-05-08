@@ -30,8 +30,10 @@ namespace ShopOnline.Models
         public string? MetaDesc { get; set; }
         public string? MetaKey { get; set; }
         public int? UnitsInStock { get; set; }
+        public int? Nccid { get; set; }
 
         public virtual Category? Cat { get; set; }
+        public virtual NhaCungCap? Ncc { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }
