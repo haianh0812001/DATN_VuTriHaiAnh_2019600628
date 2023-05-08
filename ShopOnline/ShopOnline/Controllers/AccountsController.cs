@@ -100,6 +100,8 @@ namespace ShopOnline.Controllers
             {
                 if (ModelState.IsValid)
                 {
+                    bool isEmail = Utilities.IsValidEmail(taikhoan.Email);
+                    if (!isEmail) return View(taikhoan);
                     var check = _context.Customers.FirstOrDefault(x => x.Email == taikhoan.Email);
                     var check2 = _context.Accounts.FirstOrDefault(x => x.Email == taikhoan.Email);
                     if (check == null || check2 == null)
